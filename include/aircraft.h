@@ -1,15 +1,15 @@
+#include "threadable.h"
+#include "message_logger.h"
 
-class aircraft {
+
+#include <pthread.h>
+#include <unistd.h>
+
+class aircraft: public threadable {
 
 public:
-    void run();
+    void* run(void* thread_id);
 
-
-    explicit aircraft() {
-
-    }
-
-    virtual ~aircraft() {
-
-    }
+    explicit aircraft() = default;
+    virtual ~aircraft() = default;
 };

@@ -12,26 +12,26 @@ void radio::transmit(
     pthread_mutex_unlock(&this->transmitting);
 }
 
-message radio::listen(const char *recipient) {
-    if(mqueue.size() > 0) {
-        if (pthread_mutex_trylock(&this->transmitting)) {
-            // Radio available (lock acquired)
-
+radio_message radio::listen(const char *recipient) {
+    if (pthread_mutex_trylock(&this->transmitting) == 0) {
+        // Radio available (lock acquired)
+        if(mqueue.size() > 0) {
             for(auto it = mqueue.begin(); it != mqueue.end(); ++it) {
-                if(it.operator*().recipient.compare(recipient)) {
-                    it = mqueue.erase(it);
-
+                if (it.operator*().recipient.compare(recipient) == 0) {
+                    radio_message msg = it.operator*();
+                    mqueue.erase(it);
+                    
                     pthread_mutex_unlock(&this->transmitting);
-                    return it.operator*();
+                    return msg;
                 }
             }
             
             pthread_mutex_unlock(&this->transmitting);
             // No messages to recipient
-            return message(); //blank message
+            return radio_message(); //blank message
         }
     }
 
     // Radio not available | no messages on frequency.
-    return message(); //blank message
+    return radio_message(); //blank message
 }

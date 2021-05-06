@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class message {
+class radio_message {
 public:
     bool blank;
     string sender;
@@ -14,7 +14,7 @@ public:
     string content;
     message_types type;
 
-    explicit message(
+    explicit radio_message(
         const char* sender,
         const char* recipient,
         const char* content,
@@ -27,7 +27,7 @@ public:
         this->blank = false;
     }
 
-    message() {
+    radio_message() {
         this->blank = true;
     }
 };
@@ -36,7 +36,7 @@ class radio {
 
 private:
     pthread_mutex_t transmitting = PTHREAD_MUTEX_INITIALIZER;
-    list<message> mqueue;
+    list<radio_message> mqueue;
 
 public:
     explicit radio() = default;
@@ -44,5 +44,5 @@ public:
 
     // Some one wants to speak
     void transmit(const char* sender, const char* recipient, const char* content, message_types type);
-    message listen(const char *recipient);
+    radio_message listen(const char *recipient);
 };
