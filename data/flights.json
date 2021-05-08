@@ -1,0 +1,58 @@
+{
+    "flights": [
+        {
+            "origin": "SBGR",
+            "destination": "SBEG",
+            "aircraft": "A321",
+            "reg": "PT-MXA",
+            "flight_no": "LA3185",
+            "callsign": "TAM3185",
+            "time_to_pushback": 40
+        },
+        {
+            "origin": "SBGR",
+            "destination": "SBBR",
+            "aircraft": "B738",
+            "reg": "PR-GGL",
+            "flight_no": "G33185",
+            "callsign": "GLO3185",
+            "time_to_pushback": 180
+        },
+        {
+            "origin": "SBGR",
+            "destination": "SBRF",
+            "aircraft": "A20N",
+            "reg": "PR-YRK",
+            "flight_no": "AD4517",
+            "callsign": "AZU4517",
+            "time_to_pushback": 300
+        },
+        {
+            "origin": "SBSV",
+            "destination": "SBGR",
+            "aircraft": "B738",
+            "reg": "PR-GGN",
+            "flight_no": "G34092",
+            "callsign": "GLO4092",
+            "distance_to_tod": 30
+        },
+        {
+            "origin": "SBCF",
+            "destination": "SBGR",
+            "aircraft": "B738",
+            "reg": "PR-GXI",
+            "flight_no": "G34090",
+            "callsign": "GLO4090",
+            "distance_to_tod": 10
+        },
+        {
+            "origin": "SBVT",
+            "destination": "SBGR",
+            "aircraft": "A320",
+            "reg": "PR-MBH",
+            "flight_no": "LA3193",
+            "callsign": "TAM3193",
+            "distance_to_tod": 15
+        }
+    ]
+}
