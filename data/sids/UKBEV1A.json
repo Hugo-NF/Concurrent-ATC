@@ -1,0 +1,54 @@
+{
+    "airport": "SBGR",
+    "runways": ["27L", "27R"],
+    "waypoints": [
+        {
+            "id": "GR501",
+            "alt_restriction": 4000,
+            "spd_restriction": 0,
+            "distance_to_next": 4.6
+        },
+        {
+            "id": "GR722",
+            "alt_restriction": 8000,
+            "spd_restriction": 0,
+            "distance_to_next": 11.0
+        },
+        {
+            "id": "GR718",
+            "alt_restriction": 11000,
+            "spd_restriction": 0,
+            "distance_to_next": 14.2
+        },
+        {
+            "id": "BGC",
+            "alt_restriction": 15000,
+            "spd_restriction": 0,
+            "distance_to_next": 9.1
+        },
+        {
+            "id": "GR719",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 10.1
+        },
+        {
+            "id": "GR022",
+            "alt_restriction": 17000,
+            "spd_restriction": 0,
+            "distance_to_next": 12.8
+        },
+        {
+            "id": "GR023",
+            "alt_restriction": 18000,
+            "spd_restriction": 0,
+            "distance_to_next": 6.4
+        },
+        {
+            "id": "UKBEV",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 0
+        }
+    ]
+}
