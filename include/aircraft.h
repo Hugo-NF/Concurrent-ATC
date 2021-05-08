@@ -1,5 +1,4 @@
 #include "threadable.h"
-#include "message_logger.h"
 
 
 #include <pthread.h>
