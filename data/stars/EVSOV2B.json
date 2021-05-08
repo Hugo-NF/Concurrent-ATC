@@ -1,0 +1,30 @@
+{
+    "airport": "SBGR",
+    "runways": ["27L", "27R"],
+    "waypoints": [
+        {
+            "id": "TBE",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 12.6
+        },
+        {
+            "id": "ISTAT",
+            "alt_restriction": 17000,
+            "spd_restriction": 0,
+            "distance_to_next": 15.8
+        },
+        {
+            "id": "EVSOV",
+            "alt_restriction": 12000,
+            "spd_restriction": 0,
+            "distance_to_next": 12.3
+        },
+        {
+            "id": "VURAK",
+            "alt_restriction": 7000,
+            "spd_restriction": 0,
+            "distance_to_next": 0
+        }
+    ]
+}

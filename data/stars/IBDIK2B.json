@@ -1,0 +1,42 @@
+{
+    "airport": "SBGR",
+    "runways": ["27L", "27R"],
+    "waypoints": [
+        {
+            "id": "MOXEP",
+            "alt_restriction": 26000,
+            "spd_restriction": 0,
+            "distance_to_next": 16.9
+        },
+        {
+            "id": "DIGAX",
+            "alt_restriction": 12000,
+            "spd_restriction": 0,
+            "distance_to_next": 9.7
+        },
+        {
+            "id": "ROKUM",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 6.3
+        },
+        {
+            "id": "IBDIK",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 11.2
+        },
+        {
+            "id": "SUKNO",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 7.3
+        },
+        {
+            "id": "ANSUG",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 0
+        }
+    ]
+}

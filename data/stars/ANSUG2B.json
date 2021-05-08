@@ -1,0 +1,60 @@
+{
+    "airport": "SBGR",
+    "runways": ["09L", "09R"],
+    "waypoints": [
+        {
+            "id": "MOXEP",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 16.9
+        },
+        {
+            "id": "DIGAX",
+            "alt_restriction": 12000,
+            "spd_restriction": 0,
+            "distance_to_next": 9.7
+        },
+        {
+            "id": "ROKUM",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 6.3
+        },
+        {
+            "id": "IBDIK",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 11.2
+        },
+        {
+            "id": "SUKNO",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 7.3
+        },
+        {
+            "id": "ANSUG",
+            "alt_restriction": 0,
+            "spd_restriction": 0,
+            "distance_to_next": 8.0
+        },
+        {
+            "id": "PAGAL",
+            "alt_restriction": 11000,
+            "spd_restriction": 0,
+            "distance_to_next": 5.0
+        },
+        {
+            "id": "KOVLA",
+            "alt_restriction": 10000,
+            "spd_restriction": 0,
+            "distance_to_next": 11.0
+        },
+        {
+            "id": "MARPU",
+            "alt_restriction": 7000,
+            "spd_restriction": 190,
+            "distance_to_next": 0
+        }
+    ]
+}
