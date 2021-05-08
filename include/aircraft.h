@@ -1,3 +1,6 @@
+#ifndef AIRCRAFT_H
+#define AIRCRAFT_H
+
 #include "threadable.h"
 
 
@@ -12,3 +15,5 @@ public:
     explicit aircraft() = default;
     virtual ~aircraft() = default;
 };
+
+#endif // AIRCRAFT_H

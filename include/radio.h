@@ -1,3 +1,6 @@
+#ifndef RADIO_H
+#define RADIO_H
+
 #include <pthread.h>
 #include <list>
 
@@ -17,3 +20,5 @@ public:
     void transmit(const char* sender, const char* recipient, const char* content, const char* args, message_types type);
     radio_message listen(const char *recipient);
 };
+
+#endif // RADIO_H

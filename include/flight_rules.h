@@ -1,3 +1,5 @@
+#ifndef FLIGHT_RULES_H
+#define FLIGHT_RULES_H
 
 enum flight_phases {
     ON_GROUND,
@@ -32,3 +34,36 @@ enum message_types {
     EXIT_HOLDING_REQUEST,
     EXIT_HOLDING_CLEARANCE
 };
+
+class flight_rules {
+
+public:
+    static const char* get_flight_phase(int type) {
+        switch (type) {
+        case ON_GROUND:
+            return "GROUND";
+        case TAXIING:
+            return "TAXIING";
+        case WAITING_CLEARANCE:
+            return "WAITING CLEARANCE FOR";
+        case TAKEOFF:
+            return "TAKE-OFF";
+        case CLIMBING:
+            return "CLIMB";
+        case CRUISING:
+            return "CRUISE";
+        case DESCENDING:
+            return "DESCEND";
+        case APPROACH:
+            return "APPROACH";
+        case LANDING:
+            return "LANDING";
+        case ROLLOUT:        
+            return "ROLLOUT";
+        default:
+            return "UNKNOWN";
+        }
+    }
+};
+
+#endif // FLIGHT_RULES_H

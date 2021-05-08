@@ -1,7 +1,8 @@
+#ifndef RUNWAY_H
+#define RUNWAY_H
+
 #include <string>
 #include <pthread.h>
-
-
 
 class runway {
 
@@ -22,3 +23,5 @@ public:
     bool try_join_runway(const char* aircraft_id);
     void leave_runway();
 };
+
+#endif // RUNWAY_H

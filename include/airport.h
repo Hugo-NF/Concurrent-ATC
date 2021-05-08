@@ -1,3 +1,6 @@
+#ifndef AIRPORT_H
+#define AIRPORT_H
+
 #include <unistd.h>
 
 #include "threadable.h"
@@ -14,3 +17,5 @@ public:
     explicit airport() = default;
     virtual ~airport() = default;
 };
+
+#endif // AIRPORT_H

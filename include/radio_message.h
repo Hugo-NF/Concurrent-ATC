@@ -1,3 +1,6 @@
+#ifndef RADIO_MESSAGE_H
+#define RADIO_MESSAGE_H
+
 #include <string>
 
 #include "flight_rules.h"
@@ -30,3 +33,5 @@ public:
         this->blank = true;
     }
 };
+
+#endif // RADIO_MESSAGE_H
