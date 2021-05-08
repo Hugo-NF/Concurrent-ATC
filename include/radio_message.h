@@ -11,20 +11,20 @@ public:
     std::string sender;
     std::string recipient;
     std::string content;
-    std::string args;
+    void* arg;
     message_types type;
 
     explicit radio_message(
         const char* sender,
         const char* recipient,
         const char* content,
-        const char* args,
+        void* arg,
         message_types type  
     ) {
         this->sender = sender;
         this->recipient = recipient;
         this->content = content;
-        this->args = args;
+        this->arg = arg;
         this->type = type;
         this->blank = false;
     }

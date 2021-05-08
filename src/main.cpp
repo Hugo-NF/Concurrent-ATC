@@ -6,6 +6,9 @@
 #include <unistd.h>
 
 #include "flight_rules.h"
+#include "radio.h"
+
+std::map<int, radio*> frequencies;
 
 int main(int argc, char **argv) {
 
