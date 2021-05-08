@@ -1,0 +1,50 @@
+{
+    "airport": "SBGR",
+    "runways": ["27L"],
+    "waypoints": [
+        {
+            "id": "ANSUG",
+            "alt_restriction": 7000,
+            "spd_restriction": 230,
+            "heading": 201,
+            "distance_to_next": 6.4
+        },
+        {
+            "id": "ESDAR",
+            "alt_restriction": 5500,
+            "spd_restriction": 0,
+            "heading": 276,
+            "distance_to_next": 5.6
+        },
+        {
+            "id": "GR041",
+            "alt_restriction": 4090,
+            "spd_restriction": 0,
+            "heading": 276,
+            "distance_to_next": 5.2
+        }
+    ],
+    "missed": [
+        {
+            "id": "ISIMU",
+            "alt_restriction": 6000,
+            "spd_restriction": 0,
+            "heading": 130,
+            "distance_to_next": 18.5
+        },
+        {
+            "id": "VURAK",
+            "alt_restriction": 7000,
+            "spd_restriction": 0,
+            "heading": 21,
+            "distance_to_next": 0
+        },
+        {
+            "id": "ANSUG",
+            "alt_restriction": 7000,
+            "spd_restriction": 230,
+            "heading": 201,
+            "distance_to_next": 0
+        }
+    ]
+}

@@ -1,0 +1,57 @@
+{
+    "airport": "SBGR",
+    "runways": ["09L"],
+    "waypoints": [
+        {
+            "id": "MARPU",
+            "alt_restriction": 7000,
+            "spd_restriction": 190,
+            "heading": 196,
+            "distance_to_next": 16.8
+        },
+        {
+            "id": "GILGO",
+            "alt_restriction": 5700,
+            "spd_restriction": 0,
+            "heading": 96,
+            "distance_to_next": 5.2
+        },
+        {
+            "id": "FI09L",
+            "alt_restriction": 4230,
+            "spd_restriction": 0,
+            "heading": 96,
+            "distance_to_next": 0.1
+        },
+        {
+            "id": "LOM",
+            "alt_restriction": 4200,
+            "spd_restriction": 0,
+            "heading": 96,
+            "distance_to_next": 4.8
+        },
+        {
+            "id": "MM",
+            "alt_restriction": 2635,
+            "spd_restriction": 0,
+            "heading": 96,
+            "distance_to_next": 6.1
+        }
+    ],
+    "missed": [
+        {
+            "id": "BCO",
+            "alt_restriction": 4200,
+            "spd_restriction": 0,
+            "heading": 292,
+            "distance_to_next": 19.4
+        },
+        {
+            "id": "MARPU",
+            "alt_restriction": 2635,
+            "spd_restriction": 0,
+            "heading": 196,
+            "distance_to_next": 0
+        }
+    ]
+}
