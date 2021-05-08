@@ -1,0 +1,28 @@
+{
+    "icao": "SBGR",
+    "iata": "GRU",
+    "name": "GUARULHOS-GOV ANDRE FRANCO MONTORO INTL",
+    "twr_frequency": 118.40,
+    "runways": [
+        {
+            "id": "09L",
+            "heading": 96,
+            "length": 12139
+        },
+        {
+            "id": "09R",
+            "heading": 96,
+            "length": 9843
+        },
+        {
+            "id": "27L",
+            "heading": 276,
+            "length": 9843
+        },
+        {
+            "id": "27R",
+            "heading": 276,
+            "length": 12139
+        }
+    ]
+}

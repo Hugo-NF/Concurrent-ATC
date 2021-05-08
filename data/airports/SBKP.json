@@ -1,0 +1,18 @@
+{
+    "icao": "SBKP",
+    "iata": "VCP",
+    "name": "VIRACOPOS INTL",
+    "twr_frequency": 118.25,
+    "runways": [
+        {
+            "id": "15",
+            "heading": 149,
+            "length": 10630
+        },
+        {
+            "id": "33",
+            "heading": 329,
+            "length": 10630
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "icao": "SBSP",
+    "iata": "CGH",
+    "name": "CONGONHAS",
+    "twr_frequency": 118.05,
+    "runways": [
+        {
+            "id": "17R",
+            "heading": 169,
+            "length": 6365
+        },
+        {
+            "id": "17L",
+            "heading": 169,
+            "length": 4905
+        },
+        {
+            "id": "35L",
+            "heading": 349,
+            "length": 6365
+        },
+        {
+            "id": "35R",
+            "heading": 349,
+            "length": 4905
+        }
+    ]
+}

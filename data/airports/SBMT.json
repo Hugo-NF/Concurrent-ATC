@@ -1,0 +1,18 @@
+{
+    "icao": "SBMT",
+    "iata": "",
+    "name": "CAMPO DE MARTE",
+    "twr_frequency": 133.35,
+    "runways": [
+        {
+            "id": "12",
+            "heading": 122,
+            "length": 5249
+        },
+        {
+            "id": "30",
+            "heading": 302,
+            "length": 5249
+        }
+    ]
+}
