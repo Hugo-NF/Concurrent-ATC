@@ -38,7 +38,7 @@ void runway::load_from_json_value(const char* airport_icao, json_value* value) {
                 for (unsigned int x = 0; x < array.length; x++) {
                     std::string current_approach = array.values[x]->u.string.ptr;
                     approach new_approach = approach();
-                    new_approach.load_from_json(current_approach);
+                    new_approach.load_from_json(airport_icao, current_approach, this->id);
                     this->approaches[current_approach] = new_approach;
                 }
                 break;
@@ -103,4 +103,16 @@ void runway::print_info() {
         printf("%s, ", it.operator*().first.c_str());
     }
     printf("\n\n");
+
+    auto it = approaches.find("ILSN");
+    if(it != approaches.end()) {
+        approach app = it.operator*().second;
+        for(unsigned int x = 0; x < app.missed_approach_fixes.size(); x++) {
+            printf("ID: %s\n", app.missed_approach_fixes[x].id.c_str());
+            printf("ALT: %ld\n", app.missed_approach_fixes[x].alt_restriction);
+            printf("SPD: %ld\n", app.missed_approach_fixes[x].spd_restriction);
+            printf("HDG: %ld\n", app.missed_approach_fixes[x].heading);
+            printf("DME: %lf\n", app.missed_approach_fixes[x].distance_to_next);
+        }
+    }
 }

@@ -52,7 +52,7 @@ public:
     explicit approach() = default;
     virtual ~approach() = default;
 
-    int load_from_json(std::string procedure_id);
+    int load_from_json(const char* airport_icao, std::string procedure_id, std::string runway_id);
 };
 
 #endif // WAYPOINT_H
