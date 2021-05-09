@@ -17,7 +17,7 @@ public:
     virtual ~radio() = default;
 
     // Some one wants to speak
-    void transmit(const char* sender, const char* recipient, const char* content, const char* args, message_types type);
+    void transmit(const char* sender, const char* recipient, const char* content, void* arg, message_types type);
     radio_message listen(const char *recipient);
 };
 

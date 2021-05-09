@@ -24,8 +24,8 @@ private:
     std::list<runway> runways;
 
 public:
-    radio* get_radio_instance();
     void* run(void* thread_id);
+    void print_info();
 
     explicit airport() = default;
     virtual ~airport() = default;

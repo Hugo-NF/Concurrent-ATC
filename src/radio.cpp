@@ -5,11 +5,11 @@ void radio::transmit(
     const char* sender,
     const char* recipient,
     const char* content,
-    const char* args,
+    void* arg,
     message_types type
 ) {
     pthread_mutex_lock(&this->transmitting);
-    this->mqueue.emplace_back(sender, recipient, content, args, type);
+    this->mqueue.emplace_back(sender, recipient, content, arg, type);
     pthread_mutex_unlock(&this->transmitting);
 }
 
