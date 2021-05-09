@@ -9,7 +9,7 @@
             "id": "09L",
             "heading": 96,
             "length": 12139,
-            "apps": ["ILSW"],
+            "approaches": ["ILSW"],
             "sids": ["BCO1A"],
             "stars": ["ANSUG2B", "TBE2B"]
         },
@@ -17,7 +17,7 @@
             "id": "09R",
             "heading": 96,
             "length": 9843,
-            "apps": ["ILSW"],
+            "approaches": ["ILSW"],
             "sids": ["BCO1A"],
             "stars": ["ANSUG2B", "TBE2B"]
         },
@@ -25,7 +25,7 @@
             "id": "27L",
             "heading": 276,
             "length": 9843,
-            "apps": ["ILSM", "ILSN"],
+            "approaches": ["ILSM", "ILSN"],
             "sids": ["UKBEV1A"],
             "stars": ["EVSOV2B", "IBDIK2B"]
         },
@@ -33,7 +33,7 @@
             "id": "27R",
             "heading": 276,
             "length": 12139,
-            "apps": ["ILSM", "ILSN"],
+            "approaches": ["ILSM", "ILSN"],
             "sids": ["UKBEV1A"],
             "stars": ["EVSOV2B", "IBDIK2B"]
         }
