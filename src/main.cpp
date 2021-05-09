@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     tma approach_ctl;
     approach_ctl.load_from_json("data/tma.json");
     
-    printf("All info loaded!\n");
+    printf("Radio frequencies available: %ld\n", frequencies.size());
     approach_ctl.print_info();
 
     return 0;

@@ -17,9 +17,40 @@ void runway::leave_runway() {
     pthread_mutex_unlock(&this->is_available);
 }
 
-void runway::load_from_json_value(json_value* value) {
-    printf("Loading runway...");
-    this->id = "09L";
+void runway::load_from_json_value(const char* airport_icao, json_value* value) {
+    int obj_length = value->u.object.length;
+    for (int x = 0; x < obj_length; x++) {
+        switch (x) {
+            case 0: {
+                this->id = value->u.object.values[x].value->u.string.ptr;
+                break;
+            }
+            case 1: {
+                this->heading = value->u.object.values[x].value->u.integer;
+                break;
+            }
+            case 2: {
+                this->length = value->u.object.values[x].value->u.integer;
+                break;
+            }
+            case 3: {
+                printf("Apps");
+                break;
+            }
+            case 4: {
+                printf("Sids");
+                break;
+            }
+            case 5: {
+                printf("Stars");
+                break;
+            }
+            default: {
+                printf("Warning: Unexpected property %s in %s.json\n", value->u.object.values[x].name, airport_icao);
+                break;
+            }
+        }
+    }
 }
 
 void runway::print_info() {

@@ -2,5 +2,5 @@
   "id": "SBXP_APP",
   "description": "Controle de tráfego da TMA São Paulo",
   "frequency": 127.50,
-  "airports": ["SBGR"]
+  "airports": ["SBGR", "SBMT"]
 }

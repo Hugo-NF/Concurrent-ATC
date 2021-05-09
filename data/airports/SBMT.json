@@ -8,12 +8,18 @@
         {
             "id": "12",
             "heading": 122,
-            "length": 5249
+            "length": 5249,
+            "apps": [],
+            "sids": [],
+            "stars": []
         },
         {
             "id": "30",
             "heading": 302,
-            "length": 5249
+            "length": 5249,
+            "apps": [],
+            "sids": [],
+            "stars": []
         }
     ]
 }

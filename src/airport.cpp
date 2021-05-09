@@ -82,7 +82,7 @@ int airport::load_from_json(const char* airport_icao) {
                 for (unsigned int x = 0; x < array.length; x++) {
                     auto current_runway = array.values[x];
                     runway new_runway = runway();
-                    new_runway.load_from_json_value(current_runway);
+                    new_runway.load_from_json_value(this->icao_id.c_str(), current_runway);
                     this->runways[new_runway.id] = new_runway;
                 }
                 break;
@@ -110,5 +110,6 @@ void airport::print_info() {
 
     for(auto it = runways.begin(); it != runways.end(); ++it) {
         it.operator*().second.print_info();
+        printf("\n");
     }    
 }

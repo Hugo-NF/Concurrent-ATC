@@ -20,7 +20,7 @@ public:
 
     bool try_join_runway(const char* aircraft_id);
     void leave_runway();
-    void load_from_json_value(json_value* value);
+    void load_from_json_value(const char* airport_icao, json_value* value);
     void print_info();
 };
 
