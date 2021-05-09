@@ -1,8 +1,9 @@
 {
     "icao": "SBMT",
-    "iata": "",
+    "iata": "RTE",
     "name": "CAMPO DE MARTE",
-    "twr_frequency": 133.35,
+    "elevation_ft": 2371,
+    "frequency": 133.35,
     "runways": [
         {
             "id": "12",

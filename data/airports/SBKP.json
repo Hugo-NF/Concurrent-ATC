@@ -2,7 +2,8 @@
     "icao": "SBKP",
     "iata": "VCP",
     "name": "VIRACOPOS INTL",
-    "twr_frequency": 118.25,
+    "elevation_ft": 2170,
+    "frequency": 118.25,
     "runways": [
         {
             "id": "15",

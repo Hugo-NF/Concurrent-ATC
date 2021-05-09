@@ -2,7 +2,8 @@
     "icao": "SBSP",
     "iata": "CGH",
     "name": "CONGONHAS",
-    "twr_frequency": 118.05,
+    "elevation_ft": 2631,
+    "frequency": 118.05,
     "runways": [
         {
             "id": "17R",
