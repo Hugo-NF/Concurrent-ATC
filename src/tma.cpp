@@ -90,6 +90,79 @@ int tma::load_from_json(const char* filename){
     return 0;
 }
 
+int tma::load_flights(const char* filename){
+
+    FILE *fp;
+    struct stat filestatus;
+    int file_size;
+    char* file_contents;
+    json_char* json;
+    json_value* value;
+
+    if (stat(filename, &filestatus) != 0) {
+        printf("File error: File %s not found\n", filename);
+        return 1;
+    }
+
+    file_size = filestatus.st_size;
+    file_contents = (char*)malloc(filestatus.st_size);
+
+    if (file_contents == NULL) {
+        printf("Memory error: unable to allocate %d bytes\n", file_size);
+        return 2;
+    }
+
+    fp = fopen(filename, "rt");
+    if (fp == nullptr) {
+        printf("Unable to open file: %s\n", filename);
+        fclose(fp);
+        free(file_contents);
+        return 3;
+    }
+
+    if (fread(file_contents, file_size, 1, fp) != 1) {
+        printf("Unable to read content of %s\n", filename);
+        fclose(fp);
+        free(file_contents);
+        return 4;
+    }
+    fclose(fp);
+
+    json = (json_char*)file_contents;
+
+    value = json_parse(json,file_size);
+
+    if (value == nullptr) {
+        printf("Unable to parse JSON data\n");
+        free(file_contents);
+        return 5;
+    }
+
+    int obj_length = value->u.object.length;
+    for (int x = 0; x < obj_length; x++) {
+        switch (x) {
+            case 0: {
+                auto array = value->u.object.values[x].value->u.array;
+                for (unsigned int arr_index = 0; arr_index < array.length; arr_index++) {
+                    json_value* flight_obj = array.values[arr_index];
+                    flight new_flight = flight();
+                    new_flight.load_from_json_value(flight_obj);
+                    flights_on_terminal.push_back(new_flight);
+                }
+                break;
+            }
+            default: {
+                printf("Warning: Unexpected property %s in %s\n", value->u.object.values[x].name, filename);
+                break;
+            }
+        }
+    }
+
+    json_value_free(value);
+    free(file_contents);
+    return 0;
+}
+
 void tma::print_info(){
     printf("Terminal ID: %s\n", this->id.c_str());
     printf("Description: %s\n", this->description.c_str());

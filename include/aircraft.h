@@ -30,27 +30,7 @@ public:
     long current_ff;
 
 
-    explicit aircraft(
-        std::string type,
-        std::string reg,
-        long descent_spd,
-        long approach_spd,
-        long landing_spd,
-        long takeoff_spd,
-        long climb_spd,
-        long cruise_spd,
-        long takeoff_distance,
-        long landing_distance,
-        long descent_ff,
-        long approach_ff,
-        long takeoff_ff,
-        long climb_ff,
-        long cruise_ff,
-        long idle_ff,
-        long starting_speed,
-        long starting_alt,
-        long starting_ff
-    );
+    explicit aircraft()= default;
     virtual ~aircraft() = default;
 
     int load_from_json(std::string aircraft_type);
