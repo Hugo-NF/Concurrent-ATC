@@ -4,11 +4,12 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
-#include <pthread.h>
-#include <unistd.h>
+#include <string>
 
 class aircraft {
 public:
+    std::string type;
+    std::string reg;
     long descent_spd;
     long approach_spd;
     long landing_spd;
@@ -17,12 +18,21 @@ public:
     long cruise_spd;
     long takeoff_distance;
     long landing_distance;
+    long descent_ff;
+    long approach_ff;
+    long takeoff_ff;
+    long climb_ff;
+    long cruise_ff;
+    long idle_ff;
 
     long current_speed;
     long current_alt;
+    long current_ff;
 
 
     explicit aircraft(
+        std::string type,
+        std::string reg,
         long descent_spd,
         long approach_spd,
         long landing_spd,
@@ -31,12 +41,21 @@ public:
         long cruise_spd,
         long takeoff_distance,
         long landing_distance,
+        long descent_ff,
+        long approach_ff,
+        long takeoff_ff,
+        long climb_ff,
+        long cruise_ff,
+        long idle_ff,
         long starting_speed,
-        long starting_alt
+        long starting_alt,
+        long starting_ff
     );
     virtual ~aircraft() = default;
 
-    unsigned int calculate_next_waypoint(double distance, double factor);
+    int load_from_json(std::string aircraft_type);
+    double calculate_remaining_fuel(double fob, double time);
+    unsigned int calculate_next_waypoint(double distance);
 };
 
 #endif // AIRCRAFT_H

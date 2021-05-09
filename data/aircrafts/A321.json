@@ -6,5 +6,11 @@
     "climb_spd": 210,
     "cruise_spd": 250,
     "takeoff_distance": 7250,
-    "landing_distance": 5249 
+    "landing_distance": 5249,
+    "descent_ff": 0.8,
+    "approach_ff": 1,
+    "takeoff_ff": 6,
+    "climb_ff": 5,
+    "cruise_ff": 2.4,
+    "idle_ff": 0.4
 }
