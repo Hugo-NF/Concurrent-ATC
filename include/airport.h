@@ -26,7 +26,8 @@ private:
 public:
     void* run(void* thread_id);
     void print_info();
-
+    void load_from_json(const char* filename);
+    
     explicit airport() = default;
     virtual ~airport() = default;
 };

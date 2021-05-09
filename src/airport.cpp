@@ -5,6 +5,10 @@ void* airport::run(void* thread_id) {
     sleep(20);
 }
 
+void airport::load_from_json(const char* filename) {
+
+}
+
 void airport::print_info() {
     printf("Airport loaded\n");
 }

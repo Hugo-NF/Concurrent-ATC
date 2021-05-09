@@ -1,8 +1,6 @@
 #ifndef AIRCRAFT_H
 #define AIRCRAFT_H
 
-#include "threadable.h"
-
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
