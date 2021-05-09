@@ -19,16 +19,16 @@ SDIR = src
 
 # Lista de dependências do projeto (arquivos .h).
 
-_DEPS = aircraft.h airport.h flight.h flight_rules.h json.h radio_message.h radio.h runway.h threadable.h
+_DEPS = aircraft.h airport.h flight.h flight_rules.h json.h radio_message.h radio.h runway.h threadable.h tma.h
 
 # Lista de arquivos intermediários de compilação gerados pelo projeto
 # (arquivos .o).
 
-_OBJ = main.o aircraft.o airport.o flight.o json.o radio.o runway.o
+_OBJ = main.o aircraft.o airport.o flight.o json.o radio.o runway.o tma.o
 
 # Lista de arquivos fontes utilizados para compilação.
 
-_SRC = main.cpp aircraft.cpp airport.cpp flight.cpp json.cpp radio.cpp runway.cpp
+_SRC = main.cpp aircraft.cpp airport.cpp flight.cpp json.cpp radio.cpp runway.cpp tma.cpp
 
 # Junção dos nomes de arquivos com seus respectivos caminhos.
 
