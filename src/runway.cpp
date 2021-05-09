@@ -34,15 +34,33 @@ void runway::load_from_json_value(const char* airport_icao, json_value* value) {
                 break;
             }
             case 3: {
-                printf("Apps");
+                auto array = value->u.object.values[x].value->u.array;
+                for (unsigned int x = 0; x < array.length; x++) {
+                    std::string current_approach = array.values[x]->u.string.ptr;
+                    approach new_approach = approach();
+                    new_approach.load_from_json(current_approach);
+                    this->approaches[current_approach] = new_approach;
+                }
                 break;
             }
             case 4: {
-                printf("Sids");
+                auto array = value->u.object.values[x].value->u.array;
+                for (unsigned int x = 0; x < array.length; x++) {
+                    std::string current_sid = array.values[x]->u.string.ptr;
+                    sid new_sid = sid();
+                    new_sid.load_from_json(current_sid);
+                    this->sids[current_sid] = new_sid;
+                }
                 break;
             }
             case 5: {
-                printf("Stars");
+                auto array = value->u.object.values[x].value->u.array;
+                for (unsigned int x = 0; x < array.length; x++) {
+                    std::string current_star = array.values[x]->u.string.ptr;
+                    star new_star = star();
+                    new_star.load_from_json(current_star);
+                    this->stars[current_star] = new_star;
+                }
                 break;
             }
             default: {
@@ -57,10 +75,32 @@ void runway::print_info() {
     printf("\t\t\tID: %s\n", this->id.c_str());
     printf("\t\t\tHeading: %ld\n", this->heading);
     printf("\t\t\tLength (ft): %ld\n", this->length);
-    printf("\t\t\tSIDS: \n");
-    // TODO: Print SIDS
-    printf("\t\t\tSTARS: \n");
-    // TODO: Print STARS
-    printf("\t\t\tAPPROACHES: \n");
-    // TODO: Print APPS
+
+    printf("\t\t\tSIDS: ");
+    for(auto it = sids.begin(); it != sids.end(); ++it) {
+        if (std::distance(it, sids.end()) == 1) {
+            printf("%s", it.operator*().first.c_str());
+            continue;
+        }
+        printf("%s, ", it.operator*().first.c_str());
+    }
+    
+    printf("\n\t\t\tSTARS: ");
+    for(auto it = stars.begin(); it != stars.end(); ++it) {
+        if (std::distance(it, stars.end()) == 1) {
+            printf("%s", it.operator*().first.c_str());
+            continue;
+        }
+        printf("%s, ", it.operator*().first.c_str());
+    }
+
+    printf("\n\t\t\tAPPROACHES: ");
+    for(auto it = approaches.begin(); it != approaches.end(); ++it) {
+        if (std::distance(it, approaches.end()) == 1) {
+            printf("%s", it.operator*().first.c_str());
+            continue;
+        }
+        printf("%s, ", it.operator*().first.c_str());
+    }
+    printf("\n\n");
 }
