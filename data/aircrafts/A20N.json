@@ -1,0 +1,10 @@
+{
+    "descent_spd": 290,
+    "approach_spd": 250,
+    "landing_spd": 137,
+    "takeoff_spd": 175,
+    "climb_spd": 210,
+    "cruise_spd": 250,
+    "takeoff_distance": 7185,
+    "landing_distance": 4724 
+}
