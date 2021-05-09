@@ -1,7 +1,16 @@
 #include "../include/tma.h"
 
-void* tma::run(void* thread_id){
+void* tma::run(void* thread_target) {
+    tma* tma_obj = (tma *) thread_target;
+    printf("TMA %s online on %.3lf MHz.\n", tma_obj->id.c_str(), tma_obj->radio_frequency);
 
+    // Starting airports
+    std::list<pthread_t> flight_threads;
+    for(auto it = tma_obj->airports.begin(); it != tma_obj->airports.end(); ++it) {
+        printf("Starting airport: %s\n", it.operator*().first.c_str());
+    }
+
+    pthread_exit(0);
 }
 
 int tma::load_from_json(const char* filename){

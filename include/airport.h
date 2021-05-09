@@ -12,7 +12,7 @@
 #include "runway.h"
 
 class airport {
-private:
+public:
     // Data
     std::string icao_id;
     std::string iata_id;
@@ -27,8 +27,8 @@ private:
     // Runways
     std::map<std::string, runway> runways;
 
-public:
-    void* run(void* thread_id);
+
+    static void* run(void* thread_target);
     void print_info();
     int load_from_json(const char* airport_icao);
     

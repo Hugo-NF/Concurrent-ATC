@@ -1,6 +1,6 @@
 #include "../include/airport.h"
 
-void* airport::run(void* thread_id) {
+void* airport::run(void* thread_target) {
     
 }
 
