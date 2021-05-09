@@ -91,14 +91,14 @@ int tma::load_from_json(const char* filename){
 }
 
 void tma::print_info(){
-    printf("Terminal loaded: TMA %s\n", this->id.c_str());
-    printf("\tDescription: %s\n", this->description.c_str());
-    printf("\tRadio frequency: %lf\n", this->radio_frequency);
+    printf("Terminal ID: %s\n", this->id.c_str());
+    printf("Description: %s\n", this->description.c_str());
+    printf("Radio frequency: %.3lf MHz\n", this->radio_frequency);
     
-    printf("\tAirports:\n");
+    printf("Airports:\n");
     for(auto it = airports.begin(); it != airports.end(); ++it) {
         auto airport = it.operator*();
-        printf("\t\t%s:\n", airport.first.c_str());
+        printf("\t%s:\n", airport.first.c_str());
         airport.second.print_info();
     }
 }

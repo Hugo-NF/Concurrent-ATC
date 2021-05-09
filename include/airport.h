@@ -1,34 +1,37 @@
 #ifndef AIRPORT_H
 #define AIRPORT_H
 
+#include <map>
 #include <list>
 #include <string>
 #include <unistd.h>
+#include <sys/stat.h>
 
+#include "json.h"
 #include "radio.h"
 #include "runway.h"
 #include "threadable.h"
 
 class airport : public threadable {
 private:
-    // Identifiers
+    // Data
     std::string icao_id;
     std::string iata_id;
     std::string name;
-    double radio_frequency;
-    int elevation_ft;
+    long elevation_ft;
 
     // Comms
-    int twr_frequency;
-    radio twr_radio;
-
+    double radio_frequency;
+    radio radio_channel;
+    std::map<std::string, int> flights_on_service;
+    
     // Runways
-    std::list<runway> runways;
+    std::map<std::string, runway> runways;
 
 public:
     void* run(void* thread_id);
     void print_info();
-    int load_from_json(const char* filename);
+    int load_from_json(const char* airport_icao);
     
     explicit airport() = default;
     virtual ~airport() = default;

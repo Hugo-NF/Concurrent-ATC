@@ -4,24 +4,24 @@
 #include <string>
 #include <pthread.h>
 
-class runway {
+#include "json.h"
 
+class runway {
+    pthread_mutex_t is_available = PTHREAD_MUTEX_INITIALIZER;
+
+public:
     std::string id;
     std::string aircraft_using_runway;
     long length;
     long heading;
-    pthread_mutex_t is_available = PTHREAD_MUTEX_INITIALIZER;
 
-public:
-    explicit runway(const char* id, long length, long heading) {
-        this->id = id;
-        this->length = length;
-        this->heading = heading;
-    }
+    explicit runway() = default;
     virtual ~runway() = default;
 
     bool try_join_runway(const char* aircraft_id);
     void leave_runway();
+    void load_from_json_value(json_value* value);
+    void print_info();
 };
 
 #endif // RUNWAY_H
