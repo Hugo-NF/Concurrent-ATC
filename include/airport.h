@@ -10,9 +10,8 @@
 #include "json.h"
 #include "radio.h"
 #include "runway.h"
-#include "threadable.h"
 
-class airport : public threadable {
+class airport {
 private:
     // Data
     std::string icao_id;

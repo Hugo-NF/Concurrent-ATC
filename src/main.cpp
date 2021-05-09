@@ -29,8 +29,11 @@ int main(int argc, char **argv) {
     printf("Confira as informações acima e aperte uma tecla para iniciar...\n");
     getchar();
 
-    
+    // Start TMA thread
+    pthread_create(&approach_ctl_thread, NULL, approach_ctl.run, (void *) "SBXP_APP");
 
+    // Waiting thread to finish
+    pthread_join(approach_ctl_thread, NULL);
 
     return 0;
 }

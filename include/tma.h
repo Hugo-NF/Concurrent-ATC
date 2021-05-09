@@ -13,9 +13,8 @@
 #include "flight.h"
 #include "json.h"
 #include "radio.h"
-#include "threadable.h"
 
-class tma: public threadable {
+class tma {
 public:
     
     std::string id;
@@ -33,7 +32,7 @@ public:
     explicit tma() = default;
     virtual ~tma() = default;
 
-    void* run(void* thread_id);
+    static void* run(void* thread_id);
     int load_from_json(const char* filename);
     int load_flights(const char* filename);
     void print_info();

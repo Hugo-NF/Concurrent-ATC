@@ -4,9 +4,8 @@
 #include "aircraft.h"
 #include "flight_rules.h"
 #include "json.h"
-#include "threadable.h"
 
-class flight: public threadable {
+class flight {
     std::string origin;
     std::string destination;
     std::string flight_no;
