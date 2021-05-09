@@ -15,7 +15,7 @@ class flight: public threadable {
     int flight_phase;
     double fob;
 
-    double time_to_pushback;
+    long time_to_pushback;
     double distance_to_tod;
 
     aircraft airplane;

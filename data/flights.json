@@ -8,7 +8,8 @@
             "flight_no": "LA3185",
             "callsign": "TAM3185",
             "time_to_pushback": 40,
-            "fob": 5
+            "distance_to_tod": 0.0,
+            "fob": 5.0
         },
         {
             "origin": "SBGR",
@@ -18,7 +19,8 @@
             "flight_no": "G33185",
             "callsign": "GLO3185",
             "time_to_pushback": 180,
-            "fob": 5
+            "distance_to_tod": 0.0,
+            "fob": 5.0
         },
         {
             "origin": "SBGR",
@@ -28,7 +30,8 @@
             "flight_no": "AD4517",
             "callsign": "AZU4517",
             "time_to_pushback": 300,
-            "fob": 5
+            "distance_to_tod": 0.0,
+            "fob": 5.0
         },
         {
             "origin": "SBSV",
@@ -37,8 +40,9 @@
             "reg": "PR-GGN",
             "flight_no": "G34092",
             "callsign": "GLO4092",
-            "distance_to_tod": 30,
-            "fob": 5
+            "time_to_pushback": 0,
+            "distance_to_tod": 30.0,
+            "fob": 5.0
         },
         {
             "origin": "SBCF",
@@ -47,8 +51,9 @@
             "reg": "PR-GXI",
             "flight_no": "G34090",
             "callsign": "GLO4090",
-            "distance_to_tod": 10,
-            "fob": 5
+            "time_to_pushback": 0,
+            "distance_to_tod": 10.0,
+            "fob": 5.0
         },
         {
             "origin": "SBVT",
@@ -57,8 +62,9 @@
             "reg": "PR-MBH",
             "flight_no": "LA3193",
             "callsign": "TAM3193",
-            "distance_to_tod": 15,
-            "fob": 5
+            "time_to_pushback": 0,
+            "distance_to_tod": 15.0,
+            "fob": 5.0
         }
     ]
 }
