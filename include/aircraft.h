@@ -5,6 +5,10 @@
 #include <cstdio>
 #include <cmath>
 #include <string>
+#include <sys/stat.h>
+
+
+#include "json.h"
 
 class aircraft {
 public:

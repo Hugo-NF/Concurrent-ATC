@@ -1,5 +1,5 @@
 {
-    "descent_spd": 225,
+    "descent_spd": 240,
     "approach_spd": 190,
     "landing_spd": 141,
     "takeoff_spd": 175,
@@ -8,9 +8,9 @@
     "takeoff_distance": 7250,
     "landing_distance": 5249,
     "descent_ff": 0.8,
-    "approach_ff": 1,
-    "takeoff_ff": 6,
-    "climb_ff": 5,
+    "approach_ff": 1.0,
+    "takeoff_ff": 6.0,
+    "climb_ff": 5.0,
     "cruise_ff": 2.4,
     "idle_ff": 0.4
 }

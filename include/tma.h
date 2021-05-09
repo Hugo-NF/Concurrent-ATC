@@ -16,7 +16,7 @@
 #include "threadable.h"
 
 class tma: public threadable {
-private:
+public:
     
     std::string id;
     std::string description;
@@ -29,7 +29,6 @@ private:
     std::map<std::string, int> flights_on_service;
     std::list<flight> flights_on_terminal; 
 
-public:
 
     explicit tma() = default;
     virtual ~tma() = default;

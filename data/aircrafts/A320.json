@@ -8,9 +8,9 @@
     "takeoff_distance": 6401,
     "landing_distance": 5413,
     "descent_ff": 0.8,
-    "approach_ff": 1,
-    "takeoff_ff": 6,
-    "climb_ff": 5,
+    "approach_ff": 1.0,
+    "takeoff_ff": 6.0,
+    "climb_ff": 5.0,
     "cruise_ff": 2.4,
     "idle_ff": 0.4
 }

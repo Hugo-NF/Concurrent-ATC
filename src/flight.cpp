@@ -17,6 +17,7 @@ int flight::load_from_json_value(json_value* value) {
         } 
         case 2: {
             this->airplane.type = value->u.object.values[flight_index].value->u.string.ptr;
+            airplane.load_from_json(value->u.object.values[flight_index].value->u.string.ptr);
             break;
         } 
         case 3: {
@@ -50,12 +51,16 @@ int flight::load_from_json_value(json_value* value) {
 
         if (this->distance_to_tod == 0 && this->time_to_pushback > 0) {
             this->flight_phase = ON_GROUND;
+            this->airplane.current_speed = 0;
+            this->airplane.current_alt = 0;
+            this->airplane.current_ff = 0;
         }
         else {
             this->flight_phase = CRUISING;
+            this->airplane.current_speed = this->airplane.cruise_spd;
+            this->airplane.current_alt = 36000;
+            this->airplane.current_ff = this->airplane.cruise_ff;
         }
-
-        airplane.load_from_json(this->airplane.type);
     }
 }
 
@@ -65,7 +70,7 @@ void flight::print_info() {
     printf("\tOrigin: %s\n", this->origin.c_str());
     printf("\tDestination: %s\n", this->destination.c_str());
     printf("\tFlight phase: %s\n", flight_rules::get_flight_phase(this->flight_phase));
-    printf("\tFOB: %lf\n", this->fob);
+    printf("\tFOB: %.2lf tons\n", this->fob);
     printf("\tAircraft: %s\n", this->airplane.type.c_str());
-    printf("\tRegistration: %s\n", this->airplane.reg.c_str());
+    printf("\tRegistration: %s\n\n", this->airplane.reg.c_str());
 }
