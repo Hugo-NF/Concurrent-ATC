@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <sys/stat.h>
+
+#include "json.h"
 
 class waypoint {
 public:
@@ -10,20 +13,20 @@ public:
     long alt_restriction;
     long spd_restriction;
     long heading;
-    long distance_to_next;
+    double distance_to_next;
 
     explicit waypoint(
         std::string id,
         long alt_restriction = 0,
         long spd_restriction = 0,
-        long heading = 0,
-        long distance_to_next = 0
+        double distance_to_next = 0,
+        long heading = 0
     ) {
         this->id = id;
         this->alt_restriction = alt_restriction;
         this->spd_restriction = spd_restriction;
-        this->heading = heading;
         this->distance_to_next = distance_to_next;
+        this->heading = heading;
     }
 
     virtual ~waypoint() = default;
@@ -37,7 +40,7 @@ public:
     explicit sid_star() = default;
     virtual ~sid_star() = default;
 
-    int load_from_json(std::string procedure_id);
+    int load_from_json(std::string proc_path, std::string procedure_id);
 };
 
 class approach {
