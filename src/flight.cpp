@@ -4,7 +4,7 @@ void* flight::run(void* thread_id) {
 
 }
 
-void flight::load_from_json(const char* filename) {
+int flight::load_from_json(const char* filename) {
 
 }
 

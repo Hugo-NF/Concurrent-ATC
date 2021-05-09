@@ -9,7 +9,7 @@ private:
     /* data */
 public:
     void* run(void* thread_id);
-    void load_from_json(const char* filename);
+    int load_from_json(const char* filename);
     void print_info();
 
     explicit flight() = default;

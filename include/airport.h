@@ -13,7 +13,9 @@ class airport : public threadable {
 private:
     // Identifiers
     std::string icao_id;
+    std::string iata_id;
     std::string name;
+    double radio_frequency;
     int elevation_ft;
 
     // Comms
@@ -26,7 +28,7 @@ private:
 public:
     void* run(void* thread_id);
     void print_info();
-    void load_from_json(const char* filename);
+    int load_from_json(const char* filename);
     
     explicit airport() = default;
     virtual ~airport() = default;
