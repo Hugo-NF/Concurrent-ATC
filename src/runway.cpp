@@ -47,7 +47,7 @@ void runway::load_from_json_value(const char* airport_icao, json_value* value) {
                 auto array = value->u.object.values[x].value->u.array;
                 for (unsigned int x = 0; x < array.length; x++) {
                     std::string current_sid = array.values[x]->u.string.ptr;
-                    sid new_sid = sid();
+                    sid_star new_sid = sid_star();
                     new_sid.load_from_json(current_sid);
                     this->sids[current_sid] = new_sid;
                 }
@@ -57,7 +57,7 @@ void runway::load_from_json_value(const char* airport_icao, json_value* value) {
                 auto array = value->u.object.values[x].value->u.array;
                 for (unsigned int x = 0; x < array.length; x++) {
                     std::string current_star = array.values[x]->u.string.ptr;
-                    star new_star = star();
+                    sid_star new_star = sid_star();
                     new_star.load_from_json(current_star);
                     this->stars[current_star] = new_star;
                 }

@@ -1,13 +1,14 @@
 #include "../include/waypoint.h"
 
-void sid::load_from_json(std::string procedure_id) {
+int sid_star::load_from_json(std::string procedure_id) {
     this->id = procedure_id;
+    
+    return 0;
 }
 
-void star::load_from_json(std::string procedure_id) {
-    this->id = procedure_id;
-}
 
-void approach::load_from_json(std::string procedure_id) {
+int approach::load_from_json(std::string procedure_id) {
     this->id = procedure_id;
+
+    return 0;
 }

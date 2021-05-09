@@ -20,8 +20,8 @@ public:
     long heading;
 
     // Procedures
-    std::map<std::string, sid> sids; 
-    std::map<std::string, star> stars; 
+    std::map<std::string, sid_star> sids; 
+    std::map<std::string, sid_star> stars; 
     std::map<std::string, approach> approaches;
 
     explicit runway() = default;

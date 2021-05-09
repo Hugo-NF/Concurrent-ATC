@@ -29,26 +29,15 @@ public:
     virtual ~waypoint() = default;
 };
 
-class sid {
+class sid_star {
 public:
     std::string id;
     std::vector<waypoint> fixes;
 
-    explicit sid() = default;
-    virtual ~sid() = default;
+    explicit sid_star() = default;
+    virtual ~sid_star() = default;
 
-    void load_from_json(std::string procedure_id);
-};
-
-class star {
-public:    
-    std::string id;
-    std::vector<waypoint> fixes;
-
-    explicit star() = default;
-    virtual ~star() = default;
-
-    void load_from_json(std::string procedure_id);
+    int load_from_json(std::string procedure_id);
 };
 
 class approach {
@@ -60,7 +49,7 @@ public:
     explicit approach() = default;
     virtual ~approach() = default;
 
-    void load_from_json(std::string procedure_id);
+    int load_from_json(std::string procedure_id);
 };
 
 #endif // WAYPOINT_H
