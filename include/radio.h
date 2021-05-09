@@ -1,8 +1,9 @@
 #ifndef RADIO_H
 #define RADIO_H
 
-#include <pthread.h>
 #include <list>
+#include <map>
+#include <pthread.h>
 
 #include "radio_message.h"
 
@@ -20,5 +21,7 @@ public:
     void transmit(const char* sender, const char* recipient, const char* content, void* arg, message_types type);
     radio_message listen(const char *recipient);
 };
+
+extern std::map<double, radio*> frequencies;
 
 #endif // RADIO_H
