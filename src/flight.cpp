@@ -4,7 +4,6 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
     printf("[%s] %s", msg.sender.c_str(), msg.content.c_str());
     
     char message_text[MESSAGE_SIZE];
-    std::string message_buff;
 
     switch (msg.type) {
         case CHECK_IN: {
@@ -19,12 +18,11 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                     msg.sender.c_str(),
                     flight_ref->distance_to_tod
                 );
-                message_buff = message_text;
 
                 frequencies[flight_ref->current_radio_frequency].transmit(
                     flight_ref->callsign.c_str(), 
                     frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
-                    message_buff.c_str(),
+                    message_text,
                     NULL,
                     DESCEND_REQUEST
                 );
@@ -43,9 +41,44 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
         case DESCEND_CLEARANCE: {
             if(flight_ref->flight_phase == CRUISING) {
                 flight_ref->current_procedure = (sid_star *) msg.arg;
-                printf("Descendo via %s\n. FOB: %.3lf", flight_ref->current_procedure->id.c_str(), flight_ref->fob);
-
                 flight_ref->flight_phase = DESCENDING;
+
+                flight_ref->airplane.current_speed = flight_ref->airplane.descent_spd;
+                flight_ref->airplane.current_ff = flight_ref->airplane.descent_ff;
+                
+                printf("Descendo via %s\n. FOB: %.3lf", flight_ref->current_procedure->id.c_str(), flight_ref->fob);
+            }
+            break;
+        }
+        case DESCEND_VFR_CLEARANCE: {
+            if(flight_ref->flight_phase == CRUISING) {
+                flight_ref->current_runway = (runway *) msg.arg;
+                flight_ref->flight_phase = DESCENDING_VFR;
+
+                flight_ref->airplane.current_speed = flight_ref->airplane.descent_spd;
+                flight_ref->airplane.current_ff = flight_ref->airplane.descent_ff;
+
+                unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(rand() % 40);
+                flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+                sleep(distance_time);
+
+                snprintf(
+                    message_text,
+                    MESSAGE_SIZE,
+                    "%s para %s. Ingressando final para pista %s de %s\n",
+                    msg.recipient.c_str(),
+                    msg.sender.c_str(),
+                    flight_ref->current_runway->id.c_str(),
+                    flight_ref->destination.c_str()
+                );
+
+                frequencies[flight_ref->current_radio_frequency].transmit(
+                    flight_ref->callsign.c_str(), 
+                    frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                    message_text,
+                    NULL,
+                    CHECK_OUT
+                );
             }
             break;
         }

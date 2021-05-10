@@ -65,6 +65,17 @@
             "time_to_pushback": 0,
             "distance_to_tod": 15.0,
             "fob": 5.0
+        },
+        {
+            "origin": "SBGL",
+            "destination": "SBMT",
+            "aircraft": "A320",
+            "reg": "PR-MBX",
+            "flight_no": "LA3291",
+            "callsign": "TAM3291",
+            "time_to_pushback": 0,
+            "distance_to_tod": 10.0,
+            "fob": 4.7
         }
     ]
 }
