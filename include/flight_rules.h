@@ -45,7 +45,8 @@ enum message_types {
     MAYDAY_CALL,
     PANPAN_CALL,
     MAYDAY_ASSISTANCE,
-    PANPAN_ASSISTANCE
+    PANPAN_ASSISTANCE,
+    OTHER
 };
 
 class flight_rules {

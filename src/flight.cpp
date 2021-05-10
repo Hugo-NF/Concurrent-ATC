@@ -7,32 +7,88 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
 
     switch (msg.type) {
         case CHECK_IN: {
-            if(flight_ref->flight_phase == CRUISING) {
-                flight_ref->target_airport = (airport *) msg.arg;
+            switch (flight_ref->flight_phase) {
+                case CRUISING: {
+                    flight_ref->target_airport = (airport *) msg.arg;
 
-                snprintf(
-                    message_text,
-                    MESSAGE_SIZE,
-                    "%s para %s, ciente. %.2lf milhas para o ideal de descida\n",
-                    msg.recipient.c_str(),
-                    msg.sender.c_str(),
-                    flight_ref->distance_to_tod
-                );
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "%s para %s, ciente. %.2lf milhas para o ideal de descida\n",
+                        msg.recipient.c_str(),
+                        msg.sender.c_str(),
+                        flight_ref->distance_to_tod
+                    );
 
-                frequencies[flight_ref->current_radio_frequency].transmit(
-                    flight_ref->callsign.c_str(), 
-                    frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
-                    message_text,
-                    NULL,
-                    DESCEND_REQUEST
-                );
-                unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(flight_ref->distance_to_tod);
-                flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
-                sleep(distance_time);
+                    frequencies[flight_ref->current_radio_frequency].transmit(
+                        flight_ref->callsign.c_str(), 
+                        frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                        message_text,
+                        NULL,
+                        DESCEND_REQUEST
+                    );
+                    unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(flight_ref->distance_to_tod);
+                    flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+                    sleep(distance_time);
+                    break;  
+                }  
             }
             break;
         }
         case CHECK_OUT: {
+            switch (flight_ref->flight_phase) {
+                case DESCENDING: {
+                    flight_ref->current_approach = (approach *) msg.arg;
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "%s transferindo para torre. Obrigado pelo excelente ATC!\n",
+                        msg.recipient.c_str()
+                    );
+
+                    frequencies[flight_ref->current_radio_frequency].transmit(
+                        flight_ref->callsign.c_str(), 
+                        frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                        message_text,
+                        NULL,
+                        OTHER
+                    );
+
+                    flight_ref->current_radio_frequency = flight_ref->target_airport->radio_frequency;
+                    flight_ref->flight_phase = APPROACH;
+                    flight_ref->airplane.current_ff = flight_ref->airplane.approach_ff;
+                    flight_ref->airplane.current_speed = flight_ref->airplane.approach_spd;
+
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "Bom dia %s_TWR, aqui é o %s. Iniciando aproximação %s.\n",
+                        flight_ref->target_airport->icao_id.c_str(),
+                        flight_ref->callsign.c_str(),
+                        flight_ref->current_approach->id.c_str()
+                    );
+
+                    frequencies[flight_ref->current_radio_frequency].transmit(
+                        flight_ref->callsign.c_str(), 
+                        frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                        message_text,
+                        (void *) &flight_ref->flight_phase,
+                        CHECK_IN
+                    );
+                    break;
+                }
+                case DESCENDING_VFR: {
+                    break;
+                }
+                case CLIMBING: {
+                    break;
+                }
+                case CLIMBING_VFR: {
+                    break;
+                }
+                default:
+                    break;
+            }
             break;
         }
         case TAXI_CLEARANCE: {
@@ -64,7 +120,21 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                     );
 
                     if (current_pos.distance_to_next == 0) {
-                        
+                        snprintf(
+                            message_text,
+                            MESSAGE_SIZE,
+                            "%s para %s. Iniciando procedimento de aproximação\n",
+                            msg.recipient.c_str(),
+                            msg.sender.c_str()
+                        );
+
+                        frequencies[flight_ref->current_radio_frequency].transmit(
+                            flight_ref->callsign.c_str(), 
+                            frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                            message_text,
+                            NULL,
+                            CHECK_OUT
+                        );
                     } 
                     else {
                         unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(rand() % 40);

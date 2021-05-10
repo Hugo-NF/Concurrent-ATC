@@ -34,6 +34,73 @@ void tma::evaluate_message(tma* tma_ref, radio_message msg) {
             break;
         }
         case CHECK_OUT: {
+            int current_phase = tma_ref->flights_on_service[msg.sender];
+            switch (current_phase) {
+                case DESCENDING: {
+                    // Will be switched to tower freq.
+                    auto it = tma_ref->flights_on_service.find(msg.sender);
+                    tma_ref->flights_on_service.erase(it);
+
+                    std::string dest_id = tma_ref->flights_on_terminal[std::string(msg.sender)].destination;
+                    airport* dest_airport = &tma_ref->airports[dest_id];
+                    std::string landing_runway = dest_airport->active_runways[rand() % dest_airport->active_runways.size()];
+                    std::string landing_app = dest_airport->runways[landing_runway].active_approaches[rand() % dest_airport->runways[landing_runway].active_approaches.size()];
+
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "%s chame a torre %s_TWR em %.3f MHz. Tenha um bom dia.\n",
+                        msg.sender.c_str(),
+                        dest_id.c_str(),
+                        dest_airport->radio_frequency
+                    );
+
+                    frequencies[tma_ref->radio_frequency].transmit(
+                        msg.recipient.c_str(),
+                        msg.sender.c_str(),
+                        message_text,
+                        (void *) &dest_airport->runways[landing_runway].approaches[landing_app],
+                        CHECK_OUT
+                    );
+                    break;
+                }
+                case DESCENDING_VFR: {
+                    // Will be switched to tower freq.
+                    auto it = tma_ref->flights_on_service.find(msg.sender);
+                    tma_ref->flights_on_service.erase(it);
+
+                    std::string dest_id = tma_ref->flights_on_terminal[std::string(msg.sender)].destination;
+                    airport* dest_airport = &tma_ref->airports[dest_id];
+
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "%s chame a torre %s_TWR em %.3f MHz. Tenha um bom dia.\n",
+                        msg.sender.c_str(),
+                        dest_id.c_str(),
+                        dest_airport->radio_frequency
+                    );
+
+                    frequencies[tma_ref->radio_frequency].transmit(
+                        msg.recipient.c_str(),
+                        msg.sender.c_str(),
+                        message_text,
+                        NULL,
+                        CHECK_OUT
+                    );
+                    break;
+                }
+                case CLIMBING: {
+                    /* code */
+                    break;
+                }
+                case CLIMBING_VFR: {
+                    /* code */
+                    break;
+                }
+                default:
+                    break;
+                } 
             break;
         }
         case DESCEND_REQUEST: {
