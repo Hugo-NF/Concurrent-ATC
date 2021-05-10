@@ -45,8 +45,34 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
 
                 flight_ref->airplane.current_speed = flight_ref->airplane.descent_spd;
                 flight_ref->airplane.current_ff = flight_ref->airplane.descent_ff;
+
+                for(unsigned int waypoint_idx = 0; waypoint_idx < flight_ref->current_procedure->fixes.size(); waypoint_idx++) {
+                    waypoint current_pos = flight_ref->current_procedure->fixes[waypoint_idx];
+                    if (current_pos.alt_restriction > 0)
+                        flight_ref->airplane.current_alt = current_pos.alt_restriction;
+                    if (current_pos.spd_restriction > 0 && current_pos.spd_restriction < flight_ref->airplane.current_speed)
+                        flight_ref->airplane.current_speed = current_pos.spd_restriction;
+                    
+                    printf("Tracking >> %s cruzando %s. %ld waypoints restantes. FF: %.3lf tons/h. FOB: %.3lf tons. Alt: %ld ft. IAS: %ld kts.\n", 
+                        flight_ref->callsign.c_str(),
+                        current_pos.id.c_str(),
+                        ((flight_ref->current_procedure->fixes.size() - 1) - waypoint_idx),
+                        flight_ref->airplane.current_ff,
+                        flight_ref->fob,
+                        flight_ref->airplane.current_alt,
+                        flight_ref->airplane.current_speed
+                    );
+
+                    if (current_pos.distance_to_next == 0) {
+                        
+                    } 
+                    else {
+                        unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(rand() % 40);
+                        flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+                        sleep(distance_time);
+                    }
+                }
                 
-                printf("Descendo via %s\n. FOB: %.3lf", flight_ref->current_procedure->id.c_str(), flight_ref->fob);
             }
             break;
         }

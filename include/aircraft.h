@@ -21,16 +21,16 @@ public:
     long cruise_spd;
     long takeoff_distance;
     long landing_distance;
-    long descent_ff;
-    long approach_ff;
-    long takeoff_ff;
-    long climb_ff;
-    long cruise_ff;
-    long idle_ff;
+    double descent_ff;
+    double approach_ff;
+    double takeoff_ff;
+    double climb_ff;
+    double cruise_ff;
+    double idle_ff;
 
     long current_speed;
     long current_alt;
-    long current_ff;
+    double current_ff;
 
 
     explicit aircraft()= default;

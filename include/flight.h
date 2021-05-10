@@ -29,7 +29,6 @@ public:
     sid_star* current_procedure;
     approach* current_approach;
     runway* current_runway;
-    unsigned int current_waypoint;
 
     aircraft airplane;
    
