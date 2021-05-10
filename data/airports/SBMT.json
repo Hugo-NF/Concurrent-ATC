@@ -21,5 +21,11 @@
             "sids": [],
             "stars": []
         }
-    ]
+    ],
+    "active": {
+        "runways": ["12"],
+        "sids": [],
+        "stars": [],
+        "approaches": []
+    }
 }

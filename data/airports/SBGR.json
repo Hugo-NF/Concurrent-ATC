@@ -37,5 +37,11 @@
             "sids": ["UKBEV1A"],
             "stars": ["EVSOV2B", "IBDIK2B"]
         }
-    ]
+    ],
+    "active": {
+        "runways": ["09L", "09R"],
+        "sids": ["BCO1A"],
+        "stars": ["ANSUG2B", "TBE2B"],
+        "approaches": ["ILSW"]
+    }
 }
