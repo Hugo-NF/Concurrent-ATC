@@ -4,6 +4,7 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
     printf("[%s] %s\n", msg.sender.c_str(), msg.content.c_str());
     switch (msg.type) {
         case CHECK_IN: {
+            airport *destination_airport = (airport *) msg.arg;
             break;
         }
         case CHECK_OUT: {
@@ -48,7 +49,7 @@ void flight::disconnect_radio(int signal) {
 
 void* flight::run(void* thread_target) {
     flight* flight_obj = (flight *) thread_target;
-
+    time_t timer; // Current time
     signal(SIGINT, disconnect_radio);
 
     const char* callsign = flight_obj->callsign.c_str();
@@ -73,7 +74,7 @@ void* flight::run(void* thread_target) {
             callsign, 
             flight_obj->origin.c_str(),
             message_buff.c_str(),
-            NULL,
+            (void *) &flight_obj->flight_phase,
             CHECK_IN
         );
     }
@@ -94,11 +95,19 @@ void* flight::run(void* thread_target) {
             callsign, 
             frequencies[flight_obj->current_radio_frequency].callsign.c_str(),
             message_buff.c_str(),
-            NULL,
+            (void *) &flight_obj->flight_phase,
             CHECK_IN
         );
     }
     
+    // Flight execution
+    while(true) {
+        time(&timer);
+        radio_message msg = frequencies[flight_obj->current_radio_frequency].listen(callsign);
+        if (!msg.blank) {
+            evaluate_message(flight_obj, msg);
+        }
+    }
 
     pthread_exit(0);
 }

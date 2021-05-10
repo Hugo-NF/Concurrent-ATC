@@ -29,7 +29,6 @@ public:
     // Runways
     std::map<std::string, runway> runways;
 
-
     void print_info();
     int load_from_json(const char* airport_icao);
     

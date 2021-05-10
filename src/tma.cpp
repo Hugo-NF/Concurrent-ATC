@@ -1,9 +1,40 @@
 #include "../include/tma.h"
 
 void tma::evaluate_message(tma* tma_ref, radio_message msg) {
+    char message_text[MESSAGE_SIZE];
+    std::string message_buff;
+    
     printf("[%s] %s\n", msg.recipient.c_str(), msg.content.c_str());
+    
     switch (msg.type) {
         case CHECK_IN: {
+            int * flight_phase = (int *) msg.arg;
+            
+            // Arriving
+            if (* flight_phase == CRUISING) {
+                tma_ref->flights_on_service[std::string(msg.sender)] = *flight_phase;
+                std::string dest_id = tma_ref->flights_on_terminal[std::string(msg.sender)].destination;
+                airport* dest_airport = &tma_ref->airports[dest_id];
+
+                snprintf(
+                    message_text,
+                    MESSAGE_SIZE,
+                    "%s contato radar estabelecido, autorizado chegada %s para pista %s em %s\n",
+                    msg.sender.c_str(),
+                    dest_airport->runways["09L"].stars["ANSUG2B"].id.c_str(),
+                    "09L",
+                    dest_id.c_str()
+                );
+                message_buff = message_text;
+
+                frequencies[tma_ref->radio_frequency].transmit(
+                    msg.recipient.c_str(),
+                    msg.sender.c_str(),
+                    message_text,
+                    (void *) dest_airport,
+                    CHECK_IN
+                );
+            }
             break;
         }
         case CHECK_OUT: {
@@ -56,7 +87,7 @@ void* tma::run(void* thread_target) {
     std::list<pthread_t> flight_threads;
     for(auto it = tma_obj->flights_on_terminal.begin(); it != tma_obj->flights_on_terminal.end(); ++it) {
         flight_threads.emplace_back();
-        pthread_create(&flight_threads.back(), NULL, flight::run, (void *) it.operator->());
+        pthread_create(&flight_threads.back(), NULL, flight::run, (void *) &it.operator->()->second);
     }
 
     // TMA execution
@@ -262,7 +293,7 @@ int tma::load_flights(const char* filename){
                         new_flight.airplane.current_ff = new_flight.airplane.cruise_ff;
                     }
 
-                    flights_on_terminal.push_back(new_flight);
+                    flights_on_terminal[new_flight.callsign] = new_flight;
                 }
                 break;
             }

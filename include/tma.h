@@ -30,7 +30,7 @@ public:
     
     
     std::map<std::string, int> flights_on_service;
-    std::list<flight> flights_on_terminal; 
+    std::map<std::string, flight> flights_on_terminal; 
 
 
     explicit tma() = default;

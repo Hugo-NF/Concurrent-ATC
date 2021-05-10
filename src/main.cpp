@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 
     printf("\nFlights loaded: %ld\n", approach_ctl.flights_on_terminal.size());
     for(auto it = approach_ctl.flights_on_terminal.begin(); it != approach_ctl.flights_on_terminal.end(); ++it) {
-        it.operator*().print_info();
+        it.operator*().second.print_info();
     }
     
     printf("Confira as informações acima e aperte uma tecla para iniciar...\n");
