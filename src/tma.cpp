@@ -2,12 +2,18 @@
 
 void* tma::run(void* thread_target) {
     tma* tma_obj = (tma *) thread_target;
-    printf("TMA %s online on %.3lf MHz.\n", tma_obj->id.c_str(), tma_obj->radio_frequency);
+    printf("%s is now online on %.3lf MHz.\n", tma_obj->id.c_str(), tma_obj->radio_frequency);
 
     // Starting airports
     std::list<pthread_t> flight_threads;
     for(auto it = tma_obj->airports.begin(); it != tma_obj->airports.end(); ++it) {
-        printf("Starting airport: %s\n", it.operator*().first.c_str());
+        flight_threads.emplace_back();
+        pthread_create(&flight_threads.back(), NULL, airport::run, (void *) &it.operator->()->second);
+    }
+
+    // Waiting airport threads to finish
+    for(auto it = flight_threads.begin(); it != flight_threads.end(); ++it) {
+        pthread_join(it.operator*(), 0);
     }
 
     pthread_exit(0);

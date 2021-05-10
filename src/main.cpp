@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     getchar();
 
     // Start TMA thread
-    pthread_create(&approach_ctl_thread, NULL, approach_ctl.run, (void *) &approach_ctl);
+    pthread_create(&approach_ctl_thread, NULL, tma::run, (void *) &approach_ctl);
     
     // Waiting thread to finish
     pthread_join(approach_ctl_thread, 0);

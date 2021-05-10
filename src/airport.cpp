@@ -1,7 +1,11 @@
 #include "../include/airport.h"
 
 void* airport::run(void* thread_target) {
+    airport* airport_obj = (airport *) thread_target;
+    printf("%s_TWR is now online on %.3lf MHz\n", airport_obj->icao_id.c_str(), airport_obj->radio_frequency);
     
+    
+    pthread_exit(0);
 }
 
 int airport::load_from_json(const char* airport_icao) {
