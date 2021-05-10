@@ -17,9 +17,9 @@ void radio::transmit(
 }
 
 radio_message radio::listen(const char *recipient) {
-    if (pthread_mutex_trylock(&this->transmitting) == 0) {
-        // Radio available (lock acquired)
-        if(mqueue.size() > 0) {
+    if (mqueue.size() > 0) {
+        if (pthread_mutex_trylock(&this->transmitting) == 0) {
+            // Radio available (lock acquired)
             for(auto it = mqueue.begin(); it != mqueue.end(); ++it) {
                 if (it.operator*().recipient.compare(recipient) == 0) {
                     radio_message msg = it.operator*();

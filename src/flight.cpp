@@ -1,7 +1,49 @@
 #include "../include/flight.h"
 
+void flight::evaluate_message(flight* flight_ref, radio_message msg) {
+    switch (msg.type) {
+        case CHECK_IN: {
+            break;
+        }
+        case CHECK_OUT: {
+            break;
+        }
+        case TAXI_CLEARANCE: {
+            break;
+        }
+        case DESCEND_CLEARANCE: {
+            break;
+        }
+        case CLEARANCE_DENY: {
+            break;
+        }
+        case CLIMBING_CLEARANCE: {
+            break;
+        }
+        case TAKEOFF_CLEARANCE: {
+            break;
+        }
+        case LANDING_CLEARANCE: {
+            break;
+        }
+        case EXIT_HOLDING_CLEARANCE: {
+            break;
+        }
+        case MAYDAY_ASSISTANCE: {
+            break;
+        }
+        case PANPAN_ASSISTANCE: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+
 void* flight::run(void* thread_target) {
     flight* flight_obj = (flight *) thread_target;
+    // Departing aircraft
     if (flight_obj->flight_phase == ON_GROUND) {
         printf("%s (%s - %s) is preparing to fly from %s to %s\n",
             flight_obj->callsign.c_str(), 
@@ -10,7 +52,9 @@ void* flight::run(void* thread_target) {
             flight_obj->origin.c_str(),
             flight_obj->destination.c_str()
         );
+        sleep(flight_obj->time_to_pushback);
     }
+    // Arriving aircraft
     else {
         printf("%s (%s - %s) is inbound to %s from %s\n",
             flight_obj->callsign.c_str(), 

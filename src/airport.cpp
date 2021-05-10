@@ -1,5 +1,37 @@
 #include "../include/airport.h"
 
+void airport::evaluate_message(airport* airport_ref, radio_message msg) {
+    switch (msg.type) {
+        case CHECK_IN: {
+            break;
+        }
+        case CHECK_OUT: {
+            break;
+        }
+        case TAXI_REQUEST: {
+            break;
+        }
+        case TAKEOFF_REQUEST: {
+            break;
+        }
+        case LANDING_REQUEST: {
+            break;
+        }
+        case AFTER_LANDING: {
+            break;
+        }
+        case MAYDAY_CALL: {
+            break;
+        }
+        case PANPAN_CALL: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+
 void* airport::run(void* thread_target) {
     airport* airport_obj = (airport *) thread_target;
     printf("%s_TWR is now online on %.3lf MHz\n", airport_obj->icao_id.c_str(), airport_obj->radio_frequency);

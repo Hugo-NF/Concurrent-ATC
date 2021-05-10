@@ -1,5 +1,43 @@
 #include "../include/tma.h"
 
+void tma::evaluate_message(tma* tma_ref, radio_message msg) {
+    switch (msg.type) {
+        case CHECK_IN: {
+            break;
+        }
+        case CHECK_OUT: {
+            break;
+        }
+        case DESCEND_REQUEST: {
+            break;
+        }
+        case CLIMBING_REQUEST: {
+            break;
+        }
+        case AFTER_TAKEOFF: {
+            break;
+        }
+        case AFTER_GO_AROUND: {
+            break;
+        }
+        case ENTER_HOLDING_REQUEST: {
+            break;
+        }
+        case EXIT_HOLDING_REQUEST: {
+            break;
+        }
+        case MAYDAY_CALL: {
+            break;
+        }
+        case PANPAN_CALL: {
+            break;
+        } 
+        default: {
+            break;
+        }
+    }
+}
+
 void* tma::run(void* thread_target) {
     tma* tma_obj = (tma *) thread_target;
     printf("%s is now online on %.3lf MHz.\n", tma_obj->id.c_str(), tma_obj->radio_frequency);
@@ -18,10 +56,17 @@ void* tma::run(void* thread_target) {
         pthread_create(&flight_threads.back(), NULL, flight::run, (void *) it.operator->());
     }
 
-    // // TMA execution
-    // while(true) {
+    // TMA execution
+    while(true) {
+        radio_message msg = tma_obj->radio_channel.listen(tma_obj->id.c_str());
+        if (!msg.blank) {
+            evaluate_message(tma_obj, msg);
+        }
 
-    // }
+        if (tma_obj->flights_on_terminal.size() == 0) {
+            break;
+        }
+    }
 
     // Waiting flights threads to finish
     for(auto it = flight_threads.begin(); it != flight_threads.end(); ++it) {

@@ -28,10 +28,12 @@ public:
     std::map<std::string, runway> runways;
 
 
-    static void* run(void* thread_target);
     void print_info();
     int load_from_json(const char* airport_icao);
     
+    static void evaluate_message(airport* airport_ref, radio_message msg);
+    static void* run(void* thread_target);
+
     explicit airport() = default;
     virtual ~airport() = default;
 };

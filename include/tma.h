@@ -32,10 +32,12 @@ public:
     explicit tma() = default;
     virtual ~tma() = default;
 
-    static void* run(void* thread_id);
     int load_from_json(const char* filename);
     int load_flights(const char* filename);
     void print_info();
+
+    static void evaluate_message(tma* tma_ref, radio_message msg);
+    static void* run(void* thread_id);
 
 };
 
