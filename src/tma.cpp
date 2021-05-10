@@ -65,16 +65,27 @@ void* tma::run(void* thread_target) {
         if (!msg.blank) {
             evaluate_message(tma_obj, msg);
         }
+
+        if (tma_obj->flights_on_terminal.size() == 0) {
+            // Waiting airport threads to finish
+            for(auto it = airport_threads.begin(); it != airport_threads.end(); ++it) {
+                pthread_kill(it.operator*(), SIGINT);
+            }
+            break;
+        }
     }
+
+    // Waiting airport threads to finish
+    for(auto it = airport_threads.begin(); it != airport_threads.end(); ++it) {
+        pthread_join(it.operator*(), 0);
+    }
+    printf("All airports shutdown operations...\n");
 
     // Waiting flights threads to finish
     for(auto it = flight_threads.begin(); it != flight_threads.end(); ++it) {
         pthread_join(it.operator*(), 0);
     }
-    // Waiting airport threads to finish
-    for(auto it = airport_threads.begin(); it != airport_threads.end(); ++it) {
-        pthread_join(it.operator*(), 0);
-    }
+    printf("All airplanes disconnected from terminal...\n");
 
     pthread_exit(0);
 }

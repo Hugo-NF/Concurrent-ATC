@@ -5,10 +5,14 @@
 #include <cstdlib>
 #include <cmath>
 #include <ctime>
+#include <errno.h>                                                              
 #include <list>
 #include <map>
+#include <pthread.h>
 #include <string>
+#include <signal.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include "airport.h"
 #include "flight.h"

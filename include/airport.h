@@ -1,6 +1,9 @@
 #ifndef AIRPORT_H
 #define AIRPORT_H
 
+#include <errno.h>                                                              
+#include <pthread.h>
+#include <signal.h>
 #include <map>
 #include <list>
 #include <string>
@@ -32,6 +35,7 @@ public:
     int load_from_json(const char* airport_icao);
     
     static void evaluate_message(airport* airport_ref, radio_message msg);
+    static void finish_operation(int signal); 
     static void* run(void* thread_target);
 
     explicit airport() = default;

@@ -32,11 +32,22 @@ void airport::evaluate_message(airport* airport_ref, radio_message msg) {
     }
 }
 
+void airport::finish_operation(int signal) {
+    printf("Signal %d received\n", signal);
+    pthread_exit(0);
+}
+
 void* airport::run(void* thread_target) {
     airport* airport_obj = (airport *) thread_target;
+    
     printf("%s_TWR is now online on %.3lf MHz\n", airport_obj->icao_id.c_str(), airport_obj->radio_frequency);
     
+    signal(SIGINT, finish_operation);
     
+    while(1) {
+        
+    }
+
     pthread_exit(0);
 }
 
