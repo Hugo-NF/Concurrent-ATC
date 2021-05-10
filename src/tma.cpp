@@ -2,9 +2,8 @@
 
 void tma::evaluate_message(tma* tma_ref, radio_message msg) {
     char message_text[MESSAGE_SIZE];
-    std::string message_buff;
     
-    printf("[%s] %s\n", msg.recipient.c_str(), msg.content.c_str());
+    printf("[%s] %s", msg.recipient.c_str(), msg.content.c_str());
     
     switch (msg.type) {
         case CHECK_IN: {
@@ -23,7 +22,6 @@ void tma::evaluate_message(tma* tma_ref, radio_message msg) {
                     msg.sender.c_str(),
                     dest_id.c_str()
                 );
-                message_buff = message_text;
 
                 frequencies[tma_ref->radio_frequency].transmit(
                     msg.recipient.c_str(),
@@ -39,6 +37,34 @@ void tma::evaluate_message(tma* tma_ref, radio_message msg) {
             break;
         }
         case DESCEND_REQUEST: {
+            int current_phase = tma_ref->flights_on_service[msg.sender];
+            if(current_phase == CRUISING) {
+                tma_ref->flights_on_service[std::string(msg.sender)] = DESCENDING;
+
+                std::string dest_id = tma_ref->flights_on_terminal[std::string(msg.sender)].destination;
+                airport* dest_airport = &tma_ref->airports[dest_id];
+                std::string landing_runway = dest_airport->active_runways[rand() % dest_airport->active_runways.size()]; 
+                std::string landing_star = dest_airport->runways[landing_runway].active_stars[rand() % dest_airport->runways[landing_runway].active_stars.size()];
+
+                snprintf(
+                    message_text,
+                    MESSAGE_SIZE,
+                    "%s autorizado descida via %s, esperada pista %s em %s\n",
+                    msg.sender.c_str(),
+                    landing_star.c_str(),
+                    landing_runway.c_str(),
+                    dest_id.c_str()
+                );
+
+                frequencies[tma_ref->radio_frequency].transmit(
+                    msg.recipient.c_str(),
+                    msg.sender.c_str(),
+                    message_text,
+                    (void *) &dest_airport->runways[landing_runway].stars[landing_star],
+                    DESCEND_CLEARANCE
+                );
+            }
+
             break;
         }
         case CLIMBING_REQUEST: {

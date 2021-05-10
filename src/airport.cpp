@@ -1,7 +1,7 @@
 #include "../include/airport.h"
 
 void airport::evaluate_message(airport* airport_ref, radio_message msg) {
-    printf("[%s_TWR] %s\n", msg.recipient.c_str(), msg.content.c_str());
+    printf("[%s_TWR] %s", msg.recipient.c_str(), msg.content.c_str());
     switch (msg.type) {
         case CHECK_IN: {
             break;

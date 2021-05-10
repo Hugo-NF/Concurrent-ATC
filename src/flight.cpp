@@ -1,10 +1,37 @@
 #include "../include/flight.h"
 
 void flight::evaluate_message(flight* flight_ref, radio_message msg) {
-    printf("[%s] %s\n", msg.sender.c_str(), msg.content.c_str());
+    printf("[%s] %s", msg.sender.c_str(), msg.content.c_str());
+    
+    char message_text[MESSAGE_SIZE];
+    std::string message_buff;
+
     switch (msg.type) {
         case CHECK_IN: {
-            airport *destination_airport = (airport *) msg.arg;
+            if(flight_ref->flight_phase == CRUISING) {
+                flight_ref->target_airport = (airport *) msg.arg;
+
+                snprintf(
+                    message_text,
+                    MESSAGE_SIZE,
+                    "%s para %s, ciente. %.2lf milhas para o ideal de descida\n",
+                    msg.recipient.c_str(),
+                    msg.sender.c_str(),
+                    flight_ref->distance_to_tod
+                );
+                message_buff = message_text;
+
+                frequencies[flight_ref->current_radio_frequency].transmit(
+                    flight_ref->callsign.c_str(), 
+                    frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                    message_buff.c_str(),
+                    NULL,
+                    DESCEND_REQUEST
+                );
+                unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(flight_ref->distance_to_tod);
+                flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+                sleep(distance_time);
+            }
             break;
         }
         case CHECK_OUT: {
@@ -14,6 +41,12 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
             break;
         }
         case DESCEND_CLEARANCE: {
+            if(flight_ref->flight_phase == CRUISING) {
+                flight_ref->current_procedure = (sid_star *) msg.arg;
+                printf("Descendo via %s\n. FOB: %.3lf", flight_ref->current_procedure->id.c_str(), flight_ref->fob);
+
+                flight_ref->flight_phase = DESCENDING;
+            }
             break;
         }
         case CLEARANCE_DENY: {
