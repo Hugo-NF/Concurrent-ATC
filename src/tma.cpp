@@ -223,6 +223,37 @@ int tma::load_flights(const char* filename){
                     json_value* flight_obj = array.values[arr_index];
                     flight new_flight = flight();
                     new_flight.load_from_json_value(flight_obj);
+
+                    // Set initial values
+                    // Departing aircraft
+                    if (new_flight.distance_to_tod == 0 && new_flight.time_to_pushback > 0) {
+                        new_flight.flight_phase = ON_GROUND;
+                        
+                        new_flight.target_airport = &this->airports[new_flight.origin];
+                        new_flight.current_radio_frequency = new_flight.target_airport->radio_frequency;
+                        new_flight.current_radio_channel = frequencies[new_flight.current_radio_frequency];
+                       
+                        new_flight.airplane.current_speed = 0;
+                        new_flight.airplane.current_alt = new_flight.target_airport->elevation_ft;
+                        new_flight.airplane.current_ff = 0;
+                        printf("Elevation: %ld\n", new_flight.airplane.current_alt);
+                    }
+                    // Arriving aircraft
+                    else {
+                        new_flight.flight_phase = CRUISING;
+
+                        new_flight.current_radio_frequency = this->radio_frequency;
+                        new_flight.current_radio_channel = frequencies[this->radio_frequency];
+                        new_flight.target_airport = &this->airports[new_flight.destination];
+ 
+                        new_flight.airplane.current_speed = new_flight.airplane.cruise_spd;
+                        new_flight.airplane.current_alt = 36000; 
+                        // Constant for now. Not added to JSON because we always presume that the aircraft is able to respect the Vertical Profile,
+                        // since we're not emulating any malfunctions, weather and so on.
+                        new_flight.airplane.current_ff = new_flight.airplane.cruise_ff;
+                        printf("Radio: %.3lf\n", new_flight.current_radio_frequency);
+                    }
+
                     flights_on_terminal.push_back(new_flight);
                 }
                 break;

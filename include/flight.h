@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "aircraft.h"
+#include "airport.h"
 #include "flight_rules.h"
 #include "json.h"
 #include "radio_message.h"
@@ -20,6 +21,16 @@ public:
 
     long time_to_pushback;
     double distance_to_tod;
+
+    double current_radio_frequency;
+    radio* current_radio_channel;
+    
+    airport* target_airport;
+
+    sid_star* current_procedure;
+    approach* current_approach;
+    runway* current_runway;
+    unsigned int current_waypoint;
 
     aircraft airplane;
    

@@ -112,19 +112,6 @@ int flight::load_from_json_value(json_value* value) {
             printf("Warning: Unexpected property %s in flight %s\n", value->u.object.values[flight_index].name, this->origin.c_str());
             break;
         }
-
-        if (this->distance_to_tod == 0 && this->time_to_pushback > 0) {
-            this->flight_phase = ON_GROUND;
-            this->airplane.current_speed = 0;
-            this->airplane.current_alt = 0;
-            this->airplane.current_ff = 0;
-        }
-        else {
-            this->flight_phase = CRUISING;
-            this->airplane.current_speed = this->airplane.cruise_spd;
-            this->airplane.current_alt = 36000;
-            this->airplane.current_ff = this->airplane.cruise_ff;
-        }
     }
 
     return 0;
