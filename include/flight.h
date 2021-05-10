@@ -6,6 +6,7 @@
 #include "json.h"
 
 class flight {
+public: 
     std::string origin;
     std::string destination;
     std::string flight_no;
@@ -18,9 +19,8 @@ class flight {
     double distance_to_tod;
 
     aircraft airplane;
-
-public:    
-    void* run(void* thread_id);
+   
+    static void* run(void* thread_target);
     int load_from_json_value(json_value* value);
     void print_info();
 

@@ -5,14 +5,30 @@ void* tma::run(void* thread_target) {
     printf("%s is now online on %.3lf MHz.\n", tma_obj->id.c_str(), tma_obj->radio_frequency);
 
     // Starting airports
-    std::list<pthread_t> flight_threads;
+    std::list<pthread_t> airport_threads;
     for(auto it = tma_obj->airports.begin(); it != tma_obj->airports.end(); ++it) {
-        flight_threads.emplace_back();
-        pthread_create(&flight_threads.back(), NULL, airport::run, (void *) &it.operator->()->second);
+        airport_threads.emplace_back();
+        pthread_create(&airport_threads.back(), NULL, airport::run, (void *) &it.operator->()->second);
     }
 
-    // Waiting airport threads to finish
+    // Starting flights
+    std::list<pthread_t> flight_threads;
+    for(auto it = tma_obj->flights_on_terminal.begin(); it != tma_obj->flights_on_terminal.end(); ++it) {
+        flight_threads.emplace_back();
+        pthread_create(&flight_threads.back(), NULL, flight::run, (void *) it.operator->());
+    }
+
+    // // TMA execution
+    // while(true) {
+
+    // }
+
+    // Waiting flights threads to finish
     for(auto it = flight_threads.begin(); it != flight_threads.end(); ++it) {
+        pthread_join(it.operator*(), 0);
+    }
+    // Waiting airport threads to finish
+    for(auto it = airport_threads.begin(); it != airport_threads.end(); ++it) {
         pthread_join(it.operator*(), 0);
     }
 

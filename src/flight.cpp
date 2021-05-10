@@ -1,7 +1,27 @@
 #include "../include/flight.h"
 
-void* flight::run(void* thread_id) {
+void* flight::run(void* thread_target) {
+    flight* flight_obj = (flight *) thread_target;
+    if (flight_obj->flight_phase == ON_GROUND) {
+        printf("%s (%s - %s) is preparing to fly from %s to %s\n",
+            flight_obj->callsign.c_str(), 
+            flight_obj->airplane.type.c_str(),
+            flight_obj->airplane.reg.c_str(),
+            flight_obj->origin.c_str(),
+            flight_obj->destination.c_str()
+        );
+    }
+    else {
+        printf("%s (%s - %s) is inbound to %s from %s\n",
+            flight_obj->callsign.c_str(), 
+            flight_obj->airplane.type.c_str(),
+            flight_obj->airplane.reg.c_str(),
+            flight_obj->destination.c_str(),
+            flight_obj->origin.c_str()
+        );
+    }
 
+    pthread_exit(0);
 }
 
 int flight::load_from_json_value(json_value* value) {
@@ -62,6 +82,8 @@ int flight::load_from_json_value(json_value* value) {
             this->airplane.current_ff = this->airplane.cruise_ff;
         }
     }
+
+    return 0;
 }
 
 void flight::print_info() {
