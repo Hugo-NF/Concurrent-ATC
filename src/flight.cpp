@@ -69,7 +69,6 @@ void* flight::run(void* thread_target) {
         snprintf(message_text, MESSAGE_SIZE, "%s no solo, solicitando autorização de rota para %s\n", callsign, flight_obj->destination.c_str());
         message_buff = message_text;
 
-        printf("%lf\n", flight_obj->current_radio_frequency);
         frequencies[flight_obj->current_radio_frequency].transmit(
             callsign, 
             flight_obj->origin.c_str(),
@@ -93,7 +92,7 @@ void* flight::run(void* thread_target) {
 
         frequencies[flight_obj->current_radio_frequency].transmit(
             callsign, 
-            "SBXP_APP",
+            frequencies[flight_obj->current_radio_frequency].callsign.c_str(),
             message_buff.c_str(),
             NULL,
             CHECK_IN

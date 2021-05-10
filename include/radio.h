@@ -12,6 +12,7 @@ class radio {
 public:
     pthread_mutex_t transmitting = PTHREAD_MUTEX_INITIALIZER;
 
+    std::string callsign;
     std::list<radio_message> mqueue;
 
     explicit radio() = default;

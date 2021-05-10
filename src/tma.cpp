@@ -153,6 +153,7 @@ int tma::load_from_json(const char* filename){
             case 2: {
                 this->radio_frequency = value->u.object.values[x].value->u.dbl;
                 frequencies[this->radio_frequency] = radio();
+                frequencies[this->radio_frequency].callsign = this->id;
                 break;
             }
             case 3: {

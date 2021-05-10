@@ -130,6 +130,7 @@ int airport::load_from_json(const char* airport_icao) {
             case 4: {
                 this->radio_frequency = value->u.object.values[x].value->u.dbl;
                 frequencies[this->radio_frequency] = radio();
+                frequencies[this->radio_frequency].callsign = this->icao_id;
                 break;
             }
             case 5: {
