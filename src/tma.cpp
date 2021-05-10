@@ -42,6 +42,8 @@ void* tma::run(void* thread_target) {
     tma* tma_obj = (tma *) thread_target;
     printf("%s is now online on %.3lf MHz.\n", tma_obj->id.c_str(), tma_obj->radio_frequency);
 
+    time_t timer; // Current time
+
     // Starting airports
     std::list<pthread_t> airport_threads;
     for(auto it = tma_obj->airports.begin(); it != tma_obj->airports.end(); ++it) {
@@ -58,13 +60,10 @@ void* tma::run(void* thread_target) {
 
     // TMA execution
     while(true) {
+        time(&timer);
         radio_message msg = tma_obj->radio_channel.listen(tma_obj->id.c_str());
         if (!msg.blank) {
             evaluate_message(tma_obj, msg);
-        }
-
-        if (tma_obj->flights_on_terminal.size() == 0) {
-            break;
         }
     }
 
@@ -236,7 +235,6 @@ int tma::load_flights(const char* filename){
                         new_flight.airplane.current_speed = 0;
                         new_flight.airplane.current_alt = new_flight.target_airport->elevation_ft;
                         new_flight.airplane.current_ff = 0;
-                        printf("Elevation: %ld\n", new_flight.airplane.current_alt);
                     }
                     // Arriving aircraft
                     else {
@@ -251,7 +249,6 @@ int tma::load_flights(const char* filename){
                         // Constant for now. Not added to JSON because we always presume that the aircraft is able to respect the Vertical Profile,
                         // since we're not emulating any malfunctions, weather and so on.
                         new_flight.airplane.current_ff = new_flight.airplane.cruise_ff;
-                        printf("Radio: %.3lf\n", new_flight.current_radio_frequency);
                     }
 
                     flights_on_terminal.push_back(new_flight);

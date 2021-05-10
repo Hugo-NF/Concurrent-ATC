@@ -9,11 +9,10 @@
 
 class radio {
 
-private:
-    pthread_mutex_t transmitting = PTHREAD_MUTEX_INITIALIZER;
-    std::list<radio_message> mqueue;
-
 public:
+    pthread_mutex_t transmitting = PTHREAD_MUTEX_INITIALIZER;
+
+    std::list<radio_message> mqueue;
     explicit radio() = default;
     virtual ~radio() = default;
 
