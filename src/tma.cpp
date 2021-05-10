@@ -19,10 +19,8 @@ void tma::evaluate_message(tma* tma_ref, radio_message msg) {
                 snprintf(
                     message_text,
                     MESSAGE_SIZE,
-                    "%s contato radar estabelecido, autorizado chegada %s para pista %s em %s\n",
+                    "%s contato radar estabelecido, aguarde para sequenciamento em %s\n",
                     msg.sender.c_str(),
-                    dest_airport->runways["09L"].stars["ANSUG2B"].id.c_str(),
-                    "09L",
                     dest_id.c_str()
                 );
                 message_buff = message_text;

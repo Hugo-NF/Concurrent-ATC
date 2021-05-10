@@ -143,6 +143,57 @@ int airport::load_from_json(const char* airport_icao) {
                 }
                 break;
             }
+            case 6: {
+                auto actives_object = value->u.object.values[x].value->u.object;
+                int actives_length = actives_object.length;
+                for (int x = 0; x < actives_length; x++) {
+                    switch (x) {
+                        case 0: {
+                            auto array = actives_object.values[x].value->u.array;
+                            for (unsigned int y = 0; y < array.length; y++) {
+                                auto current_active = array.values[y]->u.string.ptr;
+                                this->active_runways.push_back(current_active); 
+                            }
+                            break;
+                        }
+                        case 1: {
+                            for(unsigned int i = 0; i < this->active_runways.size(); i++) {
+                                auto array = actives_object.values[x].value->u.array;
+                                for (unsigned int y = 0; y < array.length; y++) {
+                                    auto current_active = array.values[y]->u.string.ptr;
+                                    this->runways[this->active_runways[i]].active_sids.push_back(current_active); 
+                                }
+                            }
+                            break;
+                        }
+                        case 2: {
+                            for(unsigned int i = 0; i < this->active_runways.size(); i++) {
+                                auto array = actives_object.values[x].value->u.array;
+                                for (unsigned int y = 0; y < array.length; y++) {
+                                    auto current_active = array.values[y]->u.string.ptr;
+                                    this->runways[this->active_runways[i]].active_stars.push_back(current_active); 
+                                }
+                            }
+                            break;
+                        }
+                        case 3: {
+                            for(unsigned int i = 0; i < this->active_runways.size(); i++) {
+                                auto array = actives_object.values[x].value->u.array;
+                                for (unsigned int y = 0; y < array.length; y++) {
+                                    auto current_active = array.values[y]->u.string.ptr;
+                                    this->runways[this->active_runways[i]].active_approaches.push_back(current_active); 
+                                }
+                            }
+                            break;
+                        }
+                        default: {
+                            printf("Warning: Unexpected active entity %s on airport %s\n", actives_object.values[x].name, this->icao_id.c_str());
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
             default: {
                 printf("Warning: Unexpected property %s in %s\n", value->u.object.values[x].name, filename.c_str());
                 break;
