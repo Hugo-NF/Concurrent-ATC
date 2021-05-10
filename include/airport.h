@@ -24,7 +24,6 @@ public:
 
     // Comms
     double radio_frequency;
-    radio radio_channel;
     std::map<std::string, int> flights_on_service;
     
     // Runways

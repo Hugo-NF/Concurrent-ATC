@@ -1,6 +1,7 @@
 #include "../include/airport.h"
 
 void airport::evaluate_message(airport* airport_ref, radio_message msg) {
+    printf("[%s_TWR] %s\n", msg.recipient.c_str(), msg.content.c_str());
     switch (msg.type) {
         case CHECK_IN: {
             break;
@@ -39,13 +40,20 @@ void airport::finish_operation(int signal) {
 
 void* airport::run(void* thread_target) {
     airport* airport_obj = (airport *) thread_target;
-    
+    time_t timer; // Current time
+    const char* callsign = airport_obj->icao_id.c_str();
+
     printf("%s_TWR is now online on %.3lf MHz\n", airport_obj->icao_id.c_str(), airport_obj->radio_frequency);
     
     signal(SIGINT, finish_operation);
     
     while(1) {
-        
+        time(&timer);
+        radio_message msg = frequencies[airport_obj->radio_frequency].listen(callsign);
+        if (!msg.blank) {
+            airport::evaluate_message(airport_obj, msg);
+        }
+        sleep(rand() % 15);
     }
 
     pthread_exit(0);
@@ -121,7 +129,7 @@ int airport::load_from_json(const char* airport_icao) {
             }
             case 4: {
                 this->radio_frequency = value->u.object.values[x].value->u.dbl;
-                frequencies[this->radio_frequency] = &this->radio_channel;
+                frequencies[this->radio_frequency] = radio();
                 break;
             }
             case 5: {

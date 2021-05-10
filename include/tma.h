@@ -25,7 +25,6 @@ public:
     std::string id;
     std::string description;
     double radio_frequency;
-    radio radio_channel;
 
     std::map<std::string, airport> airports;
     

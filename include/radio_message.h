@@ -5,6 +5,8 @@
 
 #include "flight_rules.h"
 
+#define MESSAGE_SIZE 255
+
 class radio_message {
 public:
     bool blank;

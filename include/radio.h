@@ -13,6 +13,7 @@ public:
     pthread_mutex_t transmitting = PTHREAD_MUTEX_INITIALIZER;
 
     std::list<radio_message> mqueue;
+
     explicit radio() = default;
     virtual ~radio() = default;
 
@@ -21,6 +22,6 @@ public:
     radio_message listen(const char *recipient);
 };
 
-extern std::map<double, radio*> frequencies;
+extern std::map<double, radio> frequencies;
 
 #endif // RADIO_H

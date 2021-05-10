@@ -27,17 +27,10 @@ int main(int argc, char **argv) {
     
     printf("Confira as informações acima e aperte uma tecla para iniciar...\n");
     getchar();
-    frequencies[127.50]->transmit("MAIN", "SBXP_APP", "Tá foda", NULL, CHECK_IN);
 
     // Start TMA thread
     pthread_create(&approach_ctl_thread, NULL, tma::run, (void *) &approach_ctl);
     
-    sleep(5);
-    frequencies[127.50]->transmit("MAIN", "SBXP_APP", "Conseguiu sair da condicao ne?", NULL, CHECK_IN);
-
-    sleep(5);
-    frequencies[127.50]->transmit("MAIN", "SBXP_APP", "Lock tava travado ne?", NULL, CHECK_IN);
-
     // Waiting thread to finish
     pthread_join(approach_ctl_thread, 0);
 

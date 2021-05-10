@@ -23,7 +23,6 @@ public:
     double distance_to_tod;
 
     double current_radio_frequency;
-    radio* current_radio_channel;
     
     airport* target_airport;
 
@@ -38,6 +37,7 @@ public:
     void print_info();
 
     static void evaluate_message(flight* flight_ref, radio_message msg);
+    static void disconnect_radio(int signal); 
     static void* run(void* thread_target);
 
     explicit flight() = default;

@@ -1,6 +1,7 @@
 #include "../include/tma.h"
 
 void tma::evaluate_message(tma* tma_ref, radio_message msg) {
+    printf("[%s] %s\n", msg.recipient.c_str(), msg.content.c_str());
     switch (msg.type) {
         case CHECK_IN: {
             break;
@@ -61,7 +62,7 @@ void* tma::run(void* thread_target) {
     // TMA execution
     while(true) {
         time(&timer);
-        radio_message msg = tma_obj->radio_channel.listen(tma_obj->id.c_str());
+        radio_message msg = frequencies[tma_obj->radio_frequency].listen(tma_obj->id.c_str());
         if (!msg.blank) {
             evaluate_message(tma_obj, msg);
         }
@@ -151,7 +152,7 @@ int tma::load_from_json(const char* filename){
             }
             case 2: {
                 this->radio_frequency = value->u.object.values[x].value->u.dbl;
-                frequencies[this->radio_frequency] = &this->radio_channel;
+                frequencies[this->radio_frequency] = radio();
                 break;
             }
             case 3: {
@@ -241,7 +242,6 @@ int tma::load_flights(const char* filename){
                         
                         new_flight.target_airport = &this->airports[new_flight.origin];
                         new_flight.current_radio_frequency = new_flight.target_airport->radio_frequency;
-                        new_flight.current_radio_channel = frequencies[new_flight.current_radio_frequency];
                        
                         new_flight.airplane.current_speed = 0;
                         new_flight.airplane.current_alt = new_flight.target_airport->elevation_ft;
@@ -252,7 +252,6 @@ int tma::load_flights(const char* filename){
                         new_flight.flight_phase = CRUISING;
 
                         new_flight.current_radio_frequency = this->radio_frequency;
-                        new_flight.current_radio_channel = frequencies[this->radio_frequency];
                         new_flight.target_airport = &this->airports[new_flight.destination];
  
                         new_flight.airplane.current_speed = new_flight.airplane.cruise_spd;

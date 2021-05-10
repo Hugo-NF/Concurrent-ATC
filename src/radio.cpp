@@ -1,7 +1,7 @@
 #include "../include/radio.h"
 
 // Global radio frequencies
-std::map<double, radio*> frequencies = std::map<double, radio*>();
+std::map<double, radio> frequencies = std::map<double, radio>();
 
 // Some one wants to speak
 void radio::transmit(

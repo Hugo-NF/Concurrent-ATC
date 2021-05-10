@@ -7,7 +7,7 @@
             "reg": "PT-MXA",
             "flight_no": "LA3185",
             "callsign": "TAM3185",
-            "time_to_pushback": 40,
+            "time_to_pushback": 10,
             "distance_to_tod": 0.0,
             "fob": 5.0
         },

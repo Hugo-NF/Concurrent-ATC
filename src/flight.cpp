@@ -1,6 +1,7 @@
 #include "../include/flight.h"
 
 void flight::evaluate_message(flight* flight_ref, radio_message msg) {
+    printf("[%s] %s\n", msg.sender.c_str(), msg.content.c_str());
     switch (msg.type) {
         case CHECK_IN: {
             break;
@@ -41,8 +42,19 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
     }
 }
 
+void flight::disconnect_radio(int signal) {
+    pthread_exit(0);
+}
+
 void* flight::run(void* thread_target) {
     flight* flight_obj = (flight *) thread_target;
+
+    signal(SIGINT, disconnect_radio);
+
+    const char* callsign = flight_obj->callsign.c_str();
+    char message_text[MESSAGE_SIZE];
+    std::string message_buff;
+
     // Departing aircraft
     if (flight_obj->flight_phase == ON_GROUND) {
         printf("%s (%s - %s) is preparing to fly from %s to %s\n",
@@ -53,6 +65,18 @@ void* flight::run(void* thread_target) {
             flight_obj->destination.c_str()
         );
         sleep(flight_obj->time_to_pushback);
+        
+        snprintf(message_text, MESSAGE_SIZE, "%s no solo, solicitando autorização de rota para %s\n", callsign, flight_obj->destination.c_str());
+        message_buff = message_text;
+
+        printf("%lf\n", flight_obj->current_radio_frequency);
+        frequencies[flight_obj->current_radio_frequency].transmit(
+            callsign, 
+            flight_obj->origin.c_str(),
+            message_buff.c_str(),
+            NULL,
+            CHECK_IN
+        );
     }
     // Arriving aircraft
     else {
@@ -63,7 +87,19 @@ void* flight::run(void* thread_target) {
             flight_obj->destination.c_str(),
             flight_obj->origin.c_str()
         );
+
+        snprintf(message_text, MESSAGE_SIZE, "%s com você no FL %.0ld, chegada para %s\n", callsign, flight_obj->airplane.current_alt / 100, flight_obj->destination.c_str());
+        message_buff = message_text;
+
+        frequencies[flight_obj->current_radio_frequency].transmit(
+            callsign, 
+            "SBXP_APP",
+            message_buff.c_str(),
+            NULL,
+            CHECK_IN
+        );
     }
+    
 
     pthread_exit(0);
 }
