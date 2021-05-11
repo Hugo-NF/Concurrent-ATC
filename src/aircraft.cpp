@@ -128,5 +128,5 @@ double aircraft::calculate_remaining_fuel(double fob, double time) {
 
 unsigned int aircraft::calculate_next_waypoint(double distance) {
     double result = (distance * 3600) / this->current_speed;
-    return (unsigned int) floor(result * 0.25); // Make execution faster (times decrease 75%). TODO: Remove this coefficent
+    return (unsigned int) floor(result * 0.1); // Make execution faster (times decrease 75%). TODO: Remove this coefficent
 }

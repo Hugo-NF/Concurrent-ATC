@@ -76,6 +76,17 @@
             "time_to_pushback": 0,
             "distance_to_tod": 10.0,
             "fob": 4.7
+        },
+        {
+            "origin": "SBSJ",
+            "destination": "SBMT",
+            "aircraft": "A20N",
+            "reg": "PR-YRB",
+            "flight_no": "AD9451",
+            "callsign": "AZU9451",
+            "time_to_pushback": 0,
+            "distance_to_tod": 8.0,
+            "fob": 3.7
         }
     ]
 }

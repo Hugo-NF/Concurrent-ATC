@@ -24,11 +24,11 @@ public:
 
     double current_radio_frequency;
     
-    airport* target_airport;
+    airport* target_airport = NULL;
 
-    sid_star* current_procedure;
-    approach* current_approach;
-    runway* current_runway;
+    sid_star* current_procedure = NULL;
+    approach* current_approach = NULL;
+    runway* current_runway = NULL;
 
     aircraft airplane;
    

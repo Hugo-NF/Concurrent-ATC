@@ -1,7 +1,13 @@
 #include "../include/flight.h"
 
 void flight::evaluate_message(flight* flight_ref, radio_message msg) {
-    printf("[%s] %s", msg.sender.c_str(), msg.content.c_str());
+    std::size_t found = msg.sender.find_first_of("_");
+    if(found != std::string::npos) {
+        printf("[%s] %s", msg.sender.c_str(), msg.content.c_str());
+    } 
+    else {
+        printf("[%s_TWR] %s", msg.sender.c_str(), msg.content.c_str());
+    }
     
     char message_text[MESSAGE_SIZE];
 
@@ -31,7 +37,73 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                     flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
                     sleep(distance_time);
                     break;  
-                }  
+                }
+                case APPROACH: {
+                    if(flight_ref->current_approach != NULL) { // IFR flights
+                        for(unsigned int waypoint_idx = 0; waypoint_idx < flight_ref->current_approach->approach_fixes.size(); waypoint_idx++) {
+                            waypoint current_pos = flight_ref->current_approach->approach_fixes[waypoint_idx];
+                            if (current_pos.alt_restriction > 0)
+                                flight_ref->airplane.current_alt = current_pos.alt_restriction;
+                            if (current_pos.spd_restriction > 0 && current_pos.spd_restriction < flight_ref->airplane.current_speed)
+                                flight_ref->airplane.current_speed = current_pos.spd_restriction;
+                            
+                            printf("Tracking >> %s cruzando %s. %ld waypoints restantes. FF: %.3lf tons/h. FOB: %.3lf tons. Alt: %ld ft. IAS: %ld kts.\n", 
+                                flight_ref->callsign.c_str(),
+                                current_pos.id.c_str(),
+                                ((flight_ref->current_approach->approach_fixes.size() - 1) - waypoint_idx),
+                                flight_ref->airplane.current_ff,
+                                flight_ref->fob,
+                                flight_ref->airplane.current_alt,
+                                flight_ref->airplane.current_speed
+                            );
+
+                            if (current_pos.distance_to_next == 0) {
+                                snprintf(
+                                    message_text,
+                                    MESSAGE_SIZE,
+                                    "%s para %s_TWR. Curta final %s. Solicitando permissão para pouso\n",
+                                    msg.recipient.c_str(),
+                                    msg.sender.c_str(),
+                                    flight_ref->current_approach->id.c_str()
+                                );
+
+                                frequencies[flight_ref->current_radio_frequency].transmit(
+                                    flight_ref->callsign.c_str(), 
+                                    frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                                    message_text,
+                                    NULL,
+                                    LANDING_REQUEST
+                                );
+                            }
+                            else {
+                                unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(current_pos.distance_to_next);
+                                flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+                                sleep(distance_time);
+                            }
+                        }
+                    }
+                    else {
+                        snprintf(
+                            message_text,
+                            MESSAGE_SIZE,
+                            "%s aproximando da MDA. Solicitando autorização para pouso\n",
+                            msg.recipient.c_str()
+                        );
+
+                        frequencies[flight_ref->current_radio_frequency].transmit(
+                            flight_ref->callsign.c_str(),
+                            frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                            message_text,
+                            NULL,
+                            LANDING_REQUEST
+                        );
+
+                        unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(rand() % 10);
+                        flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+                        sleep(distance_time);
+                    }
+                    break;
+                } 
             }
             break;
         }
@@ -54,10 +126,8 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                         OTHER
                     );
 
+                    // Switch to new controller
                     flight_ref->current_radio_frequency = flight_ref->target_airport->radio_frequency;
-                    flight_ref->flight_phase = APPROACH;
-                    flight_ref->airplane.current_ff = flight_ref->airplane.approach_ff;
-                    flight_ref->airplane.current_speed = flight_ref->airplane.approach_spd;
 
                     snprintf(
                         message_text,
@@ -75,9 +145,51 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                         (void *) &flight_ref->flight_phase,
                         CHECK_IN
                     );
+
+                    flight_ref->flight_phase = APPROACH;
+                    flight_ref->airplane.current_ff = flight_ref->airplane.approach_ff;
+                    flight_ref->airplane.current_speed = flight_ref->airplane.approach_spd;
                     break;
                 }
                 case DESCENDING_VFR: {
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "%s transferindo para torre. Obrigado pelo excelente ATC!\n",
+                        msg.recipient.c_str()
+                    );
+
+                    frequencies[flight_ref->current_radio_frequency].transmit(
+                        flight_ref->callsign.c_str(), 
+                        frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                        message_text,
+                        NULL,
+                        OTHER
+                    );
+
+                    // Switch to new controller
+                    flight_ref->current_radio_frequency = flight_ref->target_airport->radio_frequency;
+
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "Bom dia %s_TWR, aqui é o %s. Iniciando aproximação visual, pista %s.\n",
+                        flight_ref->target_airport->icao_id.c_str(),
+                        flight_ref->callsign.c_str(),
+                        flight_ref->current_runway->id.c_str()
+                    );
+
+                    frequencies[flight_ref->current_radio_frequency].transmit(
+                        flight_ref->callsign.c_str(), 
+                        frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                        message_text,
+                        (void *) &flight_ref->flight_phase,
+                        CHECK_IN
+                    );
+                    
+                    flight_ref->flight_phase = APPROACH;
+                    flight_ref->airplane.current_ff = flight_ref->airplane.approach_ff;
+                    flight_ref->airplane.current_speed = flight_ref->airplane.approach_spd;
                     break;
                 }
                 case CLIMBING: {
@@ -137,7 +249,7 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                         );
                     } 
                     else {
-                        unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(rand() % 40);
+                        unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(current_pos.distance_to_next);
                         flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
                         sleep(distance_time);
                     }
