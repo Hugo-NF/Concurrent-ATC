@@ -24,6 +24,7 @@ public:
     double descent_ff;
     double approach_ff;
     double takeoff_ff;
+    double landing_ff;
     double climb_ff;
     double cruise_ff;
     double idle_ff;

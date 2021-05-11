@@ -102,6 +102,7 @@ int aircraft::load_from_json(std::string aircraft_type) {
             }
             case 12: {
                 this->cruise_ff = value->u.object.values[x].value->u.dbl;
+                this->landing_ff = this->cruise_ff;
                 break;
             }
             case 13: {
@@ -128,5 +129,5 @@ double aircraft::calculate_remaining_fuel(double fob, double time) {
 
 unsigned int aircraft::calculate_next_waypoint(double distance) {
     double result = (distance * 3600) / this->current_speed;
-    return (unsigned int) floor(result * 0.1); // Make execution faster (times decrease 75%). TODO: Remove this coefficent
+    return (unsigned int) floor(result * 0.1); // Make execution faster (times decrease 90%). TODO: Remove this coefficent
 }

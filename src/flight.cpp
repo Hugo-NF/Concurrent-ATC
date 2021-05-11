@@ -46,7 +46,10 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                                 flight_ref->airplane.current_alt = current_pos.alt_restriction;
                             if (current_pos.spd_restriction > 0 && current_pos.spd_restriction < flight_ref->airplane.current_speed)
                                 flight_ref->airplane.current_speed = current_pos.spd_restriction;
-                            
+                            if (current_pos.heading > -1) {
+                                flight_ref->airplane.current_speed = flight_ref->airplane.landing_spd;
+                                flight_ref->airplane.current_ff = flight_ref->airplane.landing_ff;
+                            }
                             printf("Tracking >> %s cruzando %s. %ld waypoints restantes. FF: %.3lf tons/h. FOB: %.3lf tons. Alt: %ld ft. IAS: %ld kts.\n", 
                                 flight_ref->callsign.c_str(),
                                 current_pos.id.c_str(),
@@ -57,7 +60,7 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                                 flight_ref->airplane.current_speed
                             );
 
-                            if (current_pos.distance_to_next == 0) {
+                            if (waypoint_idx == flight_ref->current_approach->approach_fixes.size() - 1) {
                                 snprintf(
                                     message_text,
                                     MESSAGE_SIZE,
@@ -98,6 +101,8 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
                             LANDING_REQUEST
                         );
 
+                        flight_ref->airplane.current_speed = flight_ref->airplane.landing_spd;
+                        flight_ref->airplane.current_ff = flight_ref->airplane.landing_ff;
                         unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(rand() % 10);
                         flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
                         sleep(distance_time);
@@ -300,6 +305,43 @@ void flight::evaluate_message(flight* flight_ref, radio_message msg) {
             break;
         }
         case LANDING_CLEARANCE: {
+            flight_ref->current_runway = (runway *) msg.arg;
+            double distance_to_runway;
+            if(flight_ref->current_approach == NULL) {
+                distance_to_runway = rand() % 5;
+            }
+            else {
+                distance_to_runway = flight_ref->current_approach->approach_fixes[flight_ref->current_approach->approach_fixes.size() - 1].distance_to_next;
+            }
+            double landing_distance = flight_ref->airplane.landing_distance / 6076; //Convert ft to nautical miles (nm)
+
+            printf("[%s_TWR] Pouso autorizado, pista %s. QNH 1021. %s\n", msg.sender.c_str(), flight_ref->current_runway->id.c_str(), msg.recipient.c_str());
+
+            unsigned int distance_time = flight_ref->airplane.calculate_next_waypoint(distance_to_runway + landing_distance);
+            flight_ref->fob = flight_ref->airplane.calculate_remaining_fuel(flight_ref->fob, distance_time);
+            printf("Event >> %s está a %d segundos para o pouso.\n", flight_ref->callsign.c_str(), distance_time);
+            sleep(distance_time);
+
+            printf("Event >> %s fez aquele pouso manteiga.\n", flight_ref->callsign.c_str());
+            snprintf(
+                message_text,
+                MESSAGE_SIZE,
+                "%s. Em solo, livrando %s na taxiway A\n",
+                msg.recipient.c_str(),
+                flight_ref->current_runway->id.c_str()
+            );
+
+
+            frequencies[flight_ref->current_radio_frequency].transmit(
+                flight_ref->callsign.c_str(), 
+                frequencies[flight_ref->current_radio_frequency].callsign.c_str(),
+                message_text,
+                (void *) flight_ref->current_runway,
+                AFTER_LANDING
+            );
+            break;
+        }
+        case GO_AROUND_REQUEST: {
             break;
         }
         case EXIT_HOLDING_CLEARANCE: {

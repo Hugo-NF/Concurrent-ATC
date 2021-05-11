@@ -6,7 +6,7 @@
             "id": "VURAK",
             "alt_restriction": 7000,
             "spd_restriction": 190,
-            "heading": 273,
+            "heading": -1,
             "distance_to_next": 6.1
         },
         {

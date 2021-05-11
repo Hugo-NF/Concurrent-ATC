@@ -4,7 +4,7 @@ bool runway::try_join_runway(const char* aircraft_id) {
     if (pthread_mutex_trylock(&this->is_available) == 0) {
         this->aircraft_using_runway = aircraft_id;
 
-        printf("Aircraft %s is now using RWY %s\n", aircraft_id, this->id.c_str());
+        printf("Event >> %s é a próxima aeronave na pista %s\n", aircraft_id, this->id.c_str());
         return true; // Aircraft can join the runway;
     }
 
@@ -13,6 +13,7 @@ bool runway::try_join_runway(const char* aircraft_id) {
 }
 
 void runway::leave_runway() {
+    printf("Event >> %s livrou a pista %s\n", this->aircraft_using_runway.c_str(), this->id.c_str());
     aircraft_using_runway.clear();
     pthread_mutex_unlock(&this->is_available);
 }

@@ -45,52 +45,53 @@ void airport::evaluate_message(airport* airport_ref, radio_message msg) {
             break;
         }
         case LANDING_REQUEST: {
-            // bool landing_autorized = false;
-            // for(unsigned int rwy_idx = 0; rwy_idx < airport_ref->active_runways.size(); rwy_idx++) {
-            //     if (airport_ref->runways[airport_ref->active_runways[rwy_idx]].try_join_runway(msg.sender.c_str())) {
-            //         // Autorize landing
-            //         landing_autorized = true;
-            //         airport_ref->flights_on_service[msg.sender] = LANDING;
-            //         snprintf(
-            //             message_text,
-            //             MESSAGE_SIZE,
-            //             "%s, pouso autorizado, pista %s. Vento 102 com 7 nós. QNH 1021\n",
-            //             msg.sender.c_str(),
-            //             airport_ref->runways[airport_ref->active_runways[rwy_idx]].id.c_str()
-            //         );
+            bool landing_autorized = false;
+            for(unsigned int rwy_idx = 0; rwy_idx < airport_ref->active_runways.size(); rwy_idx++) {
+                if (airport_ref->runways[airport_ref->active_runways[rwy_idx]].try_join_runway(msg.sender.c_str())) {
+                    // Autorize landing
+                    landing_autorized = true;
+                    airport_ref->flights_on_service[msg.sender] = LANDING;
+                    snprintf(
+                        message_text,
+                        MESSAGE_SIZE,
+                        "%s, pouso autorizado, pista %s. Vento 102 com 7 nós. QNH 1021\n",
+                        msg.sender.c_str(),
+                        airport_ref->runways[airport_ref->active_runways[rwy_idx]].id.c_str()
+                    );
 
-            //         frequencies[airport_ref->radio_frequency].transmit(
-            //             msg.recipient.c_str(),
-            //             msg.sender.c_str(),
-            //             message_text,
-            //             (void *) &airport_ref->runways[airport_ref->active_runways[rwy_idx]],
-            //             LANDING_CLEARANCE
-            //         );
-            //         break;
-            //     }
-            // }
-            // if(!landing_autorized) {
-            //     airport_ref->flights_on_service[msg.sender] = CLIMBING_VFR;
-            //     snprintf(
-            //         message_text,
-            //         MESSAGE_SIZE,
-            //         "%s, arremeta. Realize circuito de trafego TGL à direita do aerodrómo\n",
-            //         msg.sender.c_str()
-            //     );
+                    frequencies[airport_ref->radio_frequency].transmit(
+                        msg.recipient.c_str(),
+                        msg.sender.c_str(),
+                        message_text,
+                        (void *) &airport_ref->runways[airport_ref->active_runways[rwy_idx]],
+                        LANDING_CLEARANCE
+                    );
+                    break;
+                }
+            }
+            if(!landing_autorized) {
+                airport_ref->flights_on_service[msg.sender] = GO_AROUND;
+                snprintf(
+                    message_text,
+                    MESSAGE_SIZE,
+                    "%s, arremeta.\n",
+                    msg.sender.c_str()
+                );
 
-            //     frequencies[airport_ref->radio_frequency].transmit(
-            //         msg.recipient.c_str(),
-            //         msg.sender.c_str(),
-            //         message_text,
-            //         NULL,
-            //         GO_AROUND_REQUEST
-            //     );
-            // }
+                frequencies[airport_ref->radio_frequency].transmit(
+                    msg.recipient.c_str(),
+                    msg.sender.c_str(),
+                    message_text,
+                    NULL,
+                    GO_AROUND_REQUEST
+                );
+            }
 
-            // break;
             break;
         }
         case AFTER_LANDING: {
+            runway* vacating_runway = (runway *) msg.arg;
+            vacating_runway->leave_runway(); 
             break;
         }
         case MAYDAY_CALL: {

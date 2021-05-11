@@ -6,7 +6,7 @@
             "id": "MARPU",
             "alt_restriction": 7000,
             "spd_restriction": 190,
-            "heading": 196,
+            "heading": -1,
             "distance_to_next": 16.8
         },
         {
